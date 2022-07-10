@@ -1,5 +1,7 @@
+import CollectionsView from '../views/Collections/CollectionsView';
+
 const CollectionsPage = (): JSX.Element => {
-  return <div>Hello Collections Page!</div>;
+  return <CollectionsView />;
 };
 
 export default CollectionsPage;

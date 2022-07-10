@@ -1,4 +1,3 @@
-import NftCard from '../../components/NftCard/NftCard';
 import NftsGrid from '../../components/NftsGrid/NftsGrid';
 
 const CollectionsView = (): JSX.Element => {

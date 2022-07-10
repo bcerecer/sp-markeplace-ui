@@ -1,4 +1,4 @@
-import { Navbar, Button, Typography } from '@material-tailwind/react';
+import { Button, Navbar, Typography } from '@material-tailwind/react';
 import router from 'next/router';
 
 export const AppNavbar = (): JSX.Element => {

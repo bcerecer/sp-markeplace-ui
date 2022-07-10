@@ -33,6 +33,8 @@ module.exports = {
     ],
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-empty-function': 0,
+    'import/prefer-default-export': 0,
+    'unused-imports/no-unused-imports': 2,
     'no-mixed-spaces-and-tabs': [2, 'smart-tabs'],
     semi: 2,
     'no-restricted-imports': [
@@ -45,6 +47,18 @@ module.exports = {
             message: 'Import BN from @drift-labs/sdk instead',
           },
         ],
+      },
+    ],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
+    'sort-imports': [
+      'error',
+      {
+        ignoreDeclarationSort: true,
       },
     ],
   },

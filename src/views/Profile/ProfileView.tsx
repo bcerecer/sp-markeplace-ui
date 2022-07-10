@@ -1,6 +1,6 @@
 import { Typography } from '@material-tailwind/react';
 
-const ProfilePage = (): JSX.Element => {
+const ProfileView = (): JSX.Element => {
   const address = 'temp address';
   return (
     <div>
@@ -12,4 +12,4 @@ const ProfilePage = (): JSX.Element => {
   );
 };
 
-export default ProfilePage;
+export default ProfileView;

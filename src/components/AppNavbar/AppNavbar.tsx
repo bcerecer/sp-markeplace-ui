@@ -1,6 +1,6 @@
 import { Navbar, Typography } from '@material-tailwind/react';
 import router from 'next/router';
-import ConnectWalletButton from '../ConnectWalletButton/ConnectWalletButton';
+import ConnectWalletButton from './components/ConnectWalletButton/ConnectWalletButton';
 
 export const AppNavbar = (): JSX.Element => {
   return (

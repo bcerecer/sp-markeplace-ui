@@ -1,6 +1,6 @@
 import { Button } from '@material-tailwind/react';
-import { useGlobalState } from '../../utils/state';
-import { MartianWalletConnectResponse } from '../../utils/Wallet/martian';
+import { useGlobalState } from '../../../../utils/state';
+import { MartianWalletConnectResponse } from '../../../../utils/Wallet/martian';
 
 export const ConnectWalletButton = (): JSX.Element => {
   const [wallet, setWallet] = useGlobalState('wallet');

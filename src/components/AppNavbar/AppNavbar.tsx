@@ -1,5 +1,6 @@
-import { Button, Navbar, Typography } from '@material-tailwind/react';
+import { Navbar, Typography } from '@material-tailwind/react';
 import router from 'next/router';
+import ConnectWalletButton from '../ConnectWalletButton/ConnectWalletButton';
 
 export const AppNavbar = (): JSX.Element => {
   return (
@@ -38,9 +39,7 @@ export const AppNavbar = (): JSX.Element => {
             <a className="flex items-center">Profile</a>
           </Typography>
         </ul>
-        <Button variant="gradient" size="sm">
-          Connect Wallet
-        </Button>
+        <ConnectWalletButton />
       </div>
     </Navbar>
   );

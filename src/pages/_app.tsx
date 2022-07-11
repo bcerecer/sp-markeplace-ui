@@ -13,19 +13,21 @@ declare global {
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   // Makes sure window is not undefined
-  const [app, setApp] = useState(<></>);
-  useEffect(
-    () =>
-      setApp(
+  const [isSSR, setIsSSR] = useState(true);
+  useEffect(() => {
+    setIsSSR(false);
+  }, []);
+
+  return (
+    <div>
+      {!isSSR && (
         <div>
           <AppNavbar />
           <Component {...pageProps} />
         </div>
-      ),
-    []
+      )}
+    </div>
   );
-
-  return app;
 };
 
 export default App;

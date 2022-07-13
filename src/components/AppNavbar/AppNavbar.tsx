@@ -43,7 +43,9 @@ export const AppNavbar = (): JSX.Element => {
             >
               <a className="flex items-center">Profile</a>
             </Typography>
-            <ConnectWalletButton />
+            <div className="w-[150px]">
+              <ConnectWalletButton />
+            </div>
           </ul>
         </div>
       </div>

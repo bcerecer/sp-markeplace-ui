@@ -7,7 +7,7 @@ export const AppNavbar = (): JSX.Element => {
     <Navbar className="mx-auto w-full" fullWidth>
       <div className="w-full flex items-center justify-between text-blue-grey-900">
         <div>
-          <Typography as="a" variant="small" className="mr-4 py-1.5 font-normal">
+          <Typography as="a" variant="h5">
             Space Powder
           </Typography>
         </div>
@@ -15,8 +15,8 @@ export const AppNavbar = (): JSX.Element => {
           <ul className="flex items-center gap-6">
             <Typography
               as="li"
-              variant="small"
-              className="p-1 cursor-pointer font-normal"
+              variant="h6"
+              className="p-1 cursor-pointer"
               onClick={() => {
                 router.push('/');
               }}
@@ -25,8 +25,8 @@ export const AppNavbar = (): JSX.Element => {
             </Typography>
             <Typography
               as="li"
-              variant="small"
-              className="p-1 cursor-pointer font-normal"
+              variant="h6"
+              className="p-1 cursor-pointer"
               onClick={() => {
                 router.push('/create');
               }}
@@ -35,8 +35,8 @@ export const AppNavbar = (): JSX.Element => {
             </Typography>
             <Typography
               as="li"
-              variant="small"
-              className="p-1 cursor-pointer font-normal"
+              variant="h6"
+              className="p-1 cursor-pointer"
               onClick={() => {
                 router.push('/profile');
               }}

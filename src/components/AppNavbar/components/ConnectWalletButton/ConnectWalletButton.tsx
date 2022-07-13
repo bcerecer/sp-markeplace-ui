@@ -29,6 +29,7 @@ export const ConnectWalletButton = (): JSX.Element => {
     <Button
       variant="gradient"
       size="sm"
+      fullWidth
       onClick={() => getMartianProvider()}
       className="flex items-center"
     >
@@ -55,7 +56,7 @@ export const ConnectWalletButton = (): JSX.Element => {
           />
         </svg>
       </div>
-      {wallet.address ? 'Disconnect' : 'Connect'}
+      <div className="w-full">{wallet.address ? 'Disconnect' : 'Connect'}</div>
     </Button>
   );
 };

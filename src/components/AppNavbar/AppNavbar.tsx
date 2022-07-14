@@ -1,8 +1,38 @@
+import { useRouter } from 'next/router';
 import { Navbar } from 'flowbite-react';
-import router from 'next/router';
 import ConnectWalletButton from '../Buttons/ConnectWalletButton/ConnectWalletButton';
 
+export type NavOption = {
+  name: string;
+  path: string;
+  icon: string;
+  activePath: string;
+};
+
+const navigationOptions: NavOption[] = [
+  {
+    name: 'Marketplace',
+    path: '/',
+    icon: 'market',
+    activePath: '/',
+  },
+  {
+    name: 'Create',
+    path: '/create',
+    icon: 'create',
+    activePath: '/create',
+  },
+  {
+    name: 'Profile',
+    path: '/profile',
+    icon: 'profile',
+    activePath: '/profile',
+  },
+];
+
 const AppNavbar = () => {
+  const router = useRouter();
+
   return (
     <Navbar fluid={true} className="w-full flex flex-col">
       <Navbar.Brand>
@@ -21,28 +51,18 @@ const AppNavbar = () => {
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <Navbar.Link
-            onClick={() => {
-              router.push('/');
-            }}
-            active={true}
-          >
-            Marketplace
-          </Navbar.Link>
-          <Navbar.Link
-            onClick={() => {
-              router.push('/create');
-            }}
-          >
-            Create
-          </Navbar.Link>
-          <Navbar.Link
-            onClick={() => {
-              router.push('/profile');
-            }}
-          >
-            Profile
-          </Navbar.Link>
+          {navigationOptions.map((navOption) => {
+            return (
+              <Navbar.Link
+                onClick={() => {
+                  router.push(navOption.path);
+                }}
+                active={navOption.activePath === router.pathname}
+              >
+                {navOption.name}
+              </Navbar.Link>
+            );
+          })}
         </Navbar.Collapse>
       </div>
     </Navbar>

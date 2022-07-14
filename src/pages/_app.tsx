@@ -22,9 +22,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
 
   return (
     <>
-      {' '}
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Space Powder</title>
         <link rel="icon" type="image/png" sizes="32x32" href="/icon-small.png" />
         <link rel="icon" type="image/png" sizes="128x128" href="/icon-large.png" />

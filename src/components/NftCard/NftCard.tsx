@@ -1,33 +1,24 @@
-import { Button, Card, CardBody, CardFooter, Typography } from '@material-tailwind/react';
-import Image from 'next/image';
+import { Card } from 'flowbite-react';
 
 const imageSrc =
   'https://gzgejuiyhnmaibaxoczu.supabase.co/storage/v1/object/public/cdn/apto-punks/punk-23.png';
 
 const NftCard = (): JSX.Element => {
   return (
-    <Card className="mt-6 w-96">
-      <Image
-        layout="intrinsic"
-        width={500}
-        height={500}
-        loader={() => imageSrc}
-        src={imageSrc}
-        className="rounded-lg"
-      />
-      <CardBody className="text-center">
-        <Typography variant="h5" className="mb-2">
-          NFT Name
-        </Typography>
-        <Typography>NFT Collection Name</Typography>
-      </CardBody>
-      <CardFooter divider className="flex items-center justify-between py-3">
-        <div className="w-full h-full flex justify-between">
-          <Typography>$Price</Typography>
-          <Button size="sm">Details</Button>
-        </div>
-      </CardFooter>
-    </Card>
+    <div className="max-w-sm">
+      <Card
+        imgAlt="Meaningful alt text for an image that is not purely decorative"
+        imgSrc={imageSrc}
+      >
+        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Noteworthy technology acquisitions 2021
+        </h5>
+        <p className="font-normal text-gray-700 dark:text-gray-400">
+          Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse
+          chronological order.
+        </p>
+      </Card>
+    </div>
   );
 };
 

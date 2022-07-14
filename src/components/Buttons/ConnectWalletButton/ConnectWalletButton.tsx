@@ -26,10 +26,10 @@ export const ConnectWalletButton = (): JSX.Element => {
 
   // TOOD: Refactor to use Button from flowbite-react once they allow do pass className (need w-full)
   return (
-    <div className="w-[150px]">
+    <div className="w-[140px]">
       <button
         type="button"
-        className="w-full inline-flex items-center px-3 py-3 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+        className="w-full inline-flex items-center px-3 py-3 border border-transparent shadow-sm text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700"
         onClick={() => getMartianProvider()}
       >
         <div className="pr-[5px]">

@@ -1,53 +1,49 @@
-import { Navbar, Typography } from '@material-tailwind/react';
+import { Navbar } from 'flowbite-react';
 import router from 'next/router';
-import ConnectWalletButton from './components/ConnectWalletButton/ConnectWalletButton';
+import ConnectWalletButton from '../Buttons/ConnectWalletButton/ConnectWalletButton';
 
-export const AppNavbar = (): JSX.Element => {
+const AppNavbar = () => {
   return (
-    <Navbar className="mx-auto w-full" fullWidth>
-      <div className="w-full flex items-center justify-between text-blue-grey-900">
-        <div>
-          <Typography as="a" variant="h5">
-            Space Powder
-          </Typography>
+    <Navbar fluid={true} className="w-full flex flex-col">
+      <Navbar.Brand>
+        <img
+          src="https://flowbite.com/docs/images/logo.svg"
+          className="mr-3 h-6 sm:h-9"
+          alt="Flowbite Logo"
+        />
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+          Space Powder
+        </span>
+      </Navbar.Brand>
+      <div className="flex flex-column items-center gap-6">
+        <div className="flex md:order-2">
+          <ConnectWalletButton />
+          <Navbar.Toggle />
         </div>
-        <div>
-          <ul className="flex items-center gap-6">
-            <Typography
-              as="li"
-              variant="h6"
-              className="p-1 cursor-pointer"
-              onClick={() => {
-                router.push('/');
-              }}
-            >
-              <a className="flex items-center">Marketplace</a>
-            </Typography>
-            <Typography
-              as="li"
-              variant="h6"
-              className="p-1 cursor-pointer"
-              onClick={() => {
-                router.push('/create');
-              }}
-            >
-              <a className="flex items-center">Create</a>
-            </Typography>
-            <Typography
-              as="li"
-              variant="h6"
-              className="p-1 cursor-pointer"
-              onClick={() => {
-                router.push('/profile');
-              }}
-            >
-              <a className="flex items-center">Profile</a>
-            </Typography>
-            <div className="w-[140px]">
-              <ConnectWalletButton />
-            </div>
-          </ul>
-        </div>
+        <Navbar.Collapse>
+          <Navbar.Link
+            onClick={() => {
+              router.push('/');
+            }}
+            active={true}
+          >
+            Marketplace
+          </Navbar.Link>
+          <Navbar.Link
+            onClick={() => {
+              router.push('/create');
+            }}
+          >
+            Create
+          </Navbar.Link>
+          <Navbar.Link
+            onClick={() => {
+              router.push('/profile');
+            }}
+          >
+            Profile
+          </Navbar.Link>
+        </Navbar.Collapse>
       </div>
     </Navbar>
   );

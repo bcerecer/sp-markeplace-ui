@@ -58,6 +58,7 @@ const Navbar = () => {
                   router.push(navOption.path);
                 }}
                 active={navOption.activePath === router.pathname}
+                key={navOption.name}
               >
                 {navOption.name}
               </FlowNavbar.Link>

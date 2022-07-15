@@ -19,6 +19,15 @@ module.exports = {
         16: 'repeat(16, minmax(0, 1fr))',
         18: 'repeat(18, minmax(0, 1fr))',
       },
+      keyframes: {
+        fadein: {
+          '0%': { opacity: 0, transform: 'translateY(30px)' },
+          '100%': { opacity: 1 },
+        },
+      },
+      animation: {
+        abracadabra: 'fadein 0.5s ease-in',
+      },
     },
   },
   plugins: [require('flowbite/plugin')],

@@ -5,25 +5,25 @@ import { useRouter } from 'next/router';
 const collections = [
   {
     img: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    name: 'name',
+    name: 'name1',
     description: 'description',
     path: '/create',
   },
   {
     img: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    name: 'name',
+    name: 'name2',
     description: 'description',
     path: '/create',
   },
   {
     img: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    name: 'name',
+    name: 'name3',
     description: 'description',
     path: '/create',
   },
   {
     img: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    name: 'name',
+    name: 'name4',
     description: 'This is my collection descriotion yeeyey ye ',
     path: '/create',
   },
@@ -41,6 +41,7 @@ const CollectionsList = () => {
         {collections.map((collection) => {
           return (
             <Table.Row
+              key={collection.name}
               className="bg-white dark:border-gray-700 dark:bg-gray-800"
               onClick={() => {
                 router.push(collection.path);

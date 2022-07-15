@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Flowbite } from 'flowbite-react';
 import Footer from '../components/Footer/Footer';
+import Toast from '../components/Toast/Toast';
 
 declare global {
   interface Window {
@@ -28,6 +29,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
         <link rel="icon" type="image/png" sizes="32x32" href="/icon-small.png" />
         <link rel="icon" type="image/png" sizes="128x128" href="/icon-large.png" />
       </Head>
+      <Toast />
       {!isSSR && (
         <div className="flex-grow">
           <Flowbite>

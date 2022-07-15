@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Navbar } from 'flowbite-react';
+import { Navbar as FlowNavbar } from 'flowbite-react';
 import ConnectWalletButton from '../Buttons/ConnectWalletButton/ConnectWalletButton';
 
 export type NavOption = {
@@ -30,43 +30,43 @@ const navigationOptions: NavOption[] = [
   },
 ];
 
-const AppNavbar = () => {
+const Navbar = () => {
   const router = useRouter();
 
   return (
-    <Navbar fluid={true} className="w-full flex flex-col">
-      <Navbar.Brand>
+    <FlowNavbar fluid={true} className="w-full flex flex-col">
+      <FlowNavbar.Brand href="https://spacepowder.io/">
         <img
           src="https://flowbite.com/docs/images/logo.svg"
           className="mr-3 h-6 sm:h-9"
           alt="Flowbite Logo"
         />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          Space Powder
+        <span className="font-sans self-center text-lg tracking-widest font-medium dark:text-white">
+          SPACE POWDER
         </span>
-      </Navbar.Brand>
+      </FlowNavbar.Brand>
       <div className="flex flex-column items-center gap-6">
         <div className="flex md:order-2">
           <ConnectWalletButton />
-          <Navbar.Toggle />
+          <FlowNavbar.Toggle />
         </div>
-        <Navbar.Collapse>
+        <FlowNavbar.Collapse>
           {navigationOptions.map((navOption) => {
             return (
-              <Navbar.Link
+              <FlowNavbar.Link
                 onClick={() => {
                   router.push(navOption.path);
                 }}
                 active={navOption.activePath === router.pathname}
               >
                 {navOption.name}
-              </Navbar.Link>
+              </FlowNavbar.Link>
             );
           })}
-        </Navbar.Collapse>
+        </FlowNavbar.Collapse>
       </div>
-    </Navbar>
+    </FlowNavbar>
   );
 };
 
-export default AppNavbar;
+export default Navbar;

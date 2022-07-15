@@ -2,7 +2,7 @@ import { Button, Label, TextInput, Textarea } from 'flowbite-react';
 
 const CreateForm = () => {
   return (
-    <form className="min-w-[500px] flex flex-col gap-4">
+    <form autoComplete="off" className="min-w-[500px] flex flex-col gap-4">
       <div>
         <div className="mb-2 block">
           <Label htmlFor="collection-name" value="Collection Name" />
@@ -10,7 +10,7 @@ const CreateForm = () => {
         <TextInput
           id="collection-name"
           type="text"
-          placeholder="Super NFT Collection"
+          placeholder="Super NFT collection"
           required={true}
           shadow={true}
         />
@@ -31,7 +31,13 @@ const CreateForm = () => {
         <div className="mb-2 block">
           <Label htmlFor="comment" value="Description" />
         </div>
-        <Textarea id="comment" placeholder="Collection description" required={true} rows={3} />
+        <Textarea
+          id="comment"
+          placeholder="Collection description"
+          required={true}
+          rows={3}
+          shadow={true}
+        />
       </div>
       <div>
         <div className="mb-2 block">

@@ -8,9 +8,7 @@ export interface LabelProps
 }
 
 export const Label: FC<LabelProps> = ({ children, className = '' }): JSX.Element => {
-  return (
-    <label className={classNames('font-medium dark:text-white', className)}>{children ?? ''}</label>
-  );
+  return <label className={classNames('dark:text-white', className)}>{children ?? ''}</label>;
 };
 
 export default Label;

@@ -20,13 +20,15 @@ module.exports = {
         18: 'repeat(18, minmax(0, 1fr))',
       },
       keyframes: {
-        fadein: {
-          '0%': { opacity: 0, transform: 'translateY(30px)' },
-          '100%': { opacity: 1 },
+        abracadabra: {
+          '0%,100%': { opacity: 0, transform: 'translateY(30px)' },
+          '10%': { opacity: 1, transform: 'translateY(0)' },
+          '90%': { opacity: 1, transform: 'translateY(0)' },
+          '100%': { opacity: 0, transform: 'translateY(-10px)' },
         },
       },
       animation: {
-        abracadabra: 'fadein 0.5s ease-in',
+        abracadabra: 'abracadabra 3.35s linear',
       },
     },
   },

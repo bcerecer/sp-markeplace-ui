@@ -1,7 +1,7 @@
-import LandingView from '../views/Landing/LandingView';
+import MarketplaceView from '../views/Marketplace/MarketplaceView';
 
 const IntroductionPage = (): JSX.Element => {
-  return <LandingView></LandingView>;
+  return <MarketplaceView></MarketplaceView>;
 };
 
 export default IntroductionPage;

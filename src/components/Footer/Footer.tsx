@@ -1,5 +1,5 @@
 import { Footer as FlowFooter } from 'flowbite-react';
-import { BsGithub, BsTwitter } from 'react-icons/bs';
+import { BsDiscord, BsTwitter } from 'react-icons/bs';
 import { HiMail } from 'react-icons/hi';
 
 const Footer = () => {
@@ -11,7 +11,7 @@ const Footer = () => {
           <FlowFooter.Copyright href="#" by=" Space Powder" year={2022} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <FlowFooter.Icon href="https://twitter.com/spacepowdernft" icon={BsTwitter} />
-            <FlowFooter.Icon href="https://github.com/spacepowderlabs" icon={BsGithub} />
+            <FlowFooter.Icon href="#" icon={BsDiscord} />
             <FlowFooter.Icon href="mailto:spacepowderio@gmail.com" icon={HiMail} />
           </div>
         </div>

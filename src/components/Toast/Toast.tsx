@@ -1,13 +1,17 @@
 import { Toast as FlowToast } from 'flowbite-react';
+import { useEffect } from 'react';
 import { MdOutbox } from 'react-icons/md';
-import { useAbracadabra } from '../../hooks/animation';
 
-const Toast = () => {
-  const [isVisible] = useAbracadabra(3250);
+const autoDismissAfterMs = 3250;
 
-  if (!isVisible) {
-    return null;
-  }
+const Toast = ({ content, autoDismiss, remove }) => {
+  useEffect(() => {
+    if (autoDismiss) {
+      const timeoutHandle = setTimeout(remove, autoDismissAfterMs);
+
+      return () => clearTimeout(timeoutHandle);
+    }
+  }, [autoDismiss, remove]);
 
   return (
     <div className="animate-abracadabra">

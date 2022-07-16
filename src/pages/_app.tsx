@@ -29,14 +29,16 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
         <link rel="icon" type="image/png" sizes="32x32" href="/icon-small.png" />
         <link rel="icon" type="image/png" sizes="128x128" href="/icon-large.png" />
       </Head>
-      <ToastLayout />
       {!isSSR && (
-        <div className="flex-grow">
-          <Flowbite>
-            <Navbar />
-            <Component {...pageProps} />
-          </Flowbite>
-        </div>
+        <Flowbite>
+          <Navbar />
+          <ToastLayout>
+            {/* Takes care of putting Footer component at bottom */}
+            <div className="flex-grow">
+              <Component {...pageProps} />
+            </div>
+          </ToastLayout>
+        </Flowbite>
       )}
       <div className="w-screen mx-auto flex justify-center">
         <Footer />

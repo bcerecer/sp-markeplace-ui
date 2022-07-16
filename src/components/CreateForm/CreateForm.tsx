@@ -1,37 +1,13 @@
-import { Button, Label, TextInput, Textarea, Toast } from 'flowbite-react';
-import { useEffect, useState } from 'react';
-import { MdOutbox } from 'react-icons/md';
-
-const sentToast = (
-  <Toast>
-    <div className="flex !items-start">
-      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-500 dark:bg-blue-900 dark:text-blue-300">
-        <MdOutbox className="h-5 w-5" />
-      </div>
-      <div className="ml-3 text-sm font-normal">
-        <span className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Sent</span>
-        <div className="mb-2 text-sm font-normal">Collection submitted for review</div>
-      </div>
-      <Toast.Toggle />
-    </div>
-  </Toast>
-);
+import { Button, Label, TextInput, Textarea } from 'flowbite-react';
+import { useToasts } from '../Toast/ToastLayout';
 
 const CreateForm = () => {
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  useEffect(() => {
-    return () => {
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 5000);
-    };
-  }, [showAlert]);
+  const { addToast } = useToasts();
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     // Prevent page refresh
     event.preventDefault();
-    setShowAlert(true);
-    console.log('showAlert: ', showAlert);
+    addToast('This is a new toast notification!');
   };
 
   return (
@@ -85,7 +61,6 @@ const CreateForm = () => {
         />
       </div>
       <Button type="submit">Submit</Button>
-      {showAlert && sentToast}
     </form>
   );
 };

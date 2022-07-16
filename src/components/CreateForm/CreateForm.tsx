@@ -7,7 +7,7 @@ const CreateForm = () => {
   const handleSubmit = (event: { preventDefault: () => void }) => {
     // Prevent page refresh
     event.preventDefault();
-    addToast('This is a new toast notification!');
+    addToast({ variant: 'send', title: 'Sent', text: 'Collection submitted for review' });
   };
 
   return (

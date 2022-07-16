@@ -1,9 +1,16 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import Toast from './Toast';
 
+type AddToastProps = {
+  variant: string;
+  title: string;
+  text: string;
+};
+
 // Toasts logic: https://www.claritician.com/how-to-implement-toast-notifications-in-react-using-hooks
 const ToastsContext = React.createContext({
-  addToast: () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  addToast: (props: AddToastProps) => {
     throw new Error('To add a toast, wrap the app in a ToastsProvider.');
   },
 });
@@ -15,14 +22,15 @@ const generateToastId = () => {
 const ToastLayout = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
-  const addToast = useCallback((content, options = {}) => {
-    const { autoDismiss = true } = options;
+  const addToast = useCallback((props: AddToastProps) => {
     const toastId = generateToastId();
+    const { variant, title, text } = props;
 
     const toast = {
       id: toastId,
-      content,
-      autoDismiss,
+      variant,
+      title,
+      text,
       remove: () => {
         setToasts((latestToasts) => latestToasts.filter(({ id }) => id !== toastId));
       },
@@ -42,7 +50,7 @@ const ToastLayout = ({ children }) => {
     <ToastsContext.Provider value={contextValue}>
       {children}
       <div className="h-full absolute right-0">
-        {/* mt-[75px] is hot fix to not overflow Navbar */}
+        {/* TODO: mt-[75px] is hot fix to not overflow Navbar */}
         <div className="mt-[75px] flex flex-col gap-4 overflow-hidden	">
           {toasts.map((toast) => (
             <Toast key={toast.id} {...toast} />

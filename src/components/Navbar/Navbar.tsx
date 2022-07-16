@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { Navbar as FlowNavbar } from 'flowbite-react';
 import ConnectWalletButton from '../Buttons/ConnectWalletButton/ConnectWalletButton';
+import Link from 'next/link';
 
 export type NavOption = {
   name: string;
@@ -53,15 +54,14 @@ const Navbar = () => {
         <FlowNavbar.Collapse>
           {navigationOptions.map((navOption) => {
             return (
-              <FlowNavbar.Link
-                onClick={() => {
-                  router.push(navOption.path);
-                }}
-                active={navOption.activePath === router.pathname}
-                key={navOption.name}
-              >
-                {navOption.name}
-              </FlowNavbar.Link>
+              <Link className="cursor-pointer" href={navOption.path} passHref>
+                <FlowNavbar.Link
+                  active={navOption.activePath === router.pathname}
+                  key={navOption.name}
+                >
+                  {navOption.name}
+                </FlowNavbar.Link>
+              </Link>
             );
           })}
         </FlowNavbar.Collapse>

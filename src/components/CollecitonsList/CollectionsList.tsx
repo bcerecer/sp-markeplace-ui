@@ -7,25 +7,25 @@ const collections = [
     img: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
     name: 'name1',
     description: 'description',
-    path: '/create',
+    path: '/collection/1',
   },
   {
     img: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
     name: 'name2',
     description: 'description',
-    path: '/create',
+    path: '/collection/2',
   },
   {
     img: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
     name: 'name3',
     description: 'description',
-    path: '/create',
+    path: '/collection/3',
   },
   {
     img: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
     name: 'name4',
     description: 'This is my collection descriotion yeeyey ye ',
-    path: '/create',
+    path: '/collection/4',
   },
 ];
 

@@ -29,10 +29,10 @@ export const ConnectWalletButton = (): JSX.Element => {
     <div className="w-[140px]">
       <button
         type="button"
-        className="w-full inline-flex items-center px-3 py-3 border border-transparent shadow-sm text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700"
+        className="w-full inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700"
         onClick={() => getMartianProvider()}
       >
-        <div className="pr-[5px]">
+        <div className="pr-[6px]">
           <svg
             width="24"
             height="24"
@@ -55,7 +55,7 @@ export const ConnectWalletButton = (): JSX.Element => {
             />
           </svg>
         </div>
-        <div className="w-full">{wallet.address ? 'Disconnect' : 'Connect'}</div>
+        <div className="w-full text-base">{wallet.address ? 'Disconnect' : 'Connect'}</div>
       </button>
     </div>
   );

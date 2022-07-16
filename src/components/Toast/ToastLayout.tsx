@@ -49,9 +49,8 @@ const ToastLayout = ({ children }) => {
   return (
     <ToastsContext.Provider value={contextValue}>
       {children}
-      <div className="h-full absolute right-0">
-        {/* TODO: mt-[75px] is hot fix to not overflow Navbar */}
-        <div className="mt-[75px] flex flex-col gap-4 overflow-hidden	">
+      <div className="mt-[75px] absolute right-0 overflow-hidden">
+        <div className="flex flex-col gap-4">
           {toasts.map((toast) => (
             <Toast key={toast.id} {...toast} />
           ))}

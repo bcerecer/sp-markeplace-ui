@@ -51,7 +51,7 @@ const CollectionInfo = () => {
       </div>
       <div className="w-2/5 pl-4 grid grid-cols-2">
         {collectionStats.map((stat) => (
-          <CollectionStat title={stat.title} value={stat.value} />
+          <CollectionStat key={stat.title} title={stat.title} value={stat.value} />
         ))}
       </div>
     </div>

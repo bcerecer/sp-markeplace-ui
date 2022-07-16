@@ -39,9 +39,9 @@ const CollectionInfo = () => {
             href={`https://explorer.devnet.aptos.dev/account/${0x12344534215342112342}`}
             passHref
           >
-            <Label className="text-sm font-medium underline cursor-pointer">
+            <span className="dark:text-white text-sm font-medium underline">
               0x12344534215342112342
-            </Label>
+            </span>
           </Link>
         </span>
         <Label className="text-md font-sm pt-4">

@@ -36,7 +36,7 @@ const Navbar = () => {
 
   return (
     <FlowNavbar fluid={true} className="w-full flex flex-col">
-      <FlowNavbar.Brand href="https://spacepowder.io/">
+      <FlowNavbar.Brand href="/">
         <img
           src="https://flowbite.com/docs/images/logo.svg"
           className="mr-3 h-6 sm:h-9"

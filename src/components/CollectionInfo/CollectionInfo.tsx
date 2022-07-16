@@ -1,10 +1,30 @@
 import { Avatar } from 'flowbite-react';
 import Label from '../../components/Label/Label';
 import Link from 'next/link';
+import CollectionStat from './components/CollectionStat/CollectionStat';
+
+const collectionStats = [
+  {
+    title: 'OWNERS',
+    value: '10000',
+  },
+  {
+    title: 'FLOOR',
+    value: '19090000000',
+  },
+  {
+    title: 'LISTED',
+    value: '10000',
+  },
+  {
+    title: 'TOTAL SUPPLY',
+    value: '10000',
+  },
+];
 
 const CollectionInfo = () => {
   return (
-    <div className="flex container mx-auto p-9">
+    <div className="flex container mx-auto p-9 pr-0">
       <Avatar
         rounded={true}
         img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
@@ -25,19 +45,10 @@ const CollectionInfo = () => {
           written
         </Label>
       </div>
-      <div className="flex w-2/5 pl-4 justify-between">
-        <div className="w-5/12 h-10 dark:bg-blue-800 rounded-md p-2 flex items-center justify-between">
-          <Label className="w-1/2 pl-2 text-xs font-bold dark:text-gray-400">FLOOR</Label>
-          <Label className="w-1/2 pr-2 text-sm font-md flex justify-end overflow-hidden">
-            190000000
-          </Label>
-        </div>
-        <div className="w-5/12 h-10 dark:bg-blue-800 rounded-md p-2 flex items-center justify-between">
-          <Label className="w-1/2 pl-2 text-xs font-bold dark:text-gray-400">LISTED</Label>
-          <Label className="w-1/2 pr-2 text-sm font-md flex justify-end overflow-hidden">
-            1000
-          </Label>
-        </div>
+      <div className="w-2/5 pl-4 grid grid-cols-2">
+        {collectionStats.map((stat) => (
+          <CollectionStat title={stat.title} value={stat.value} />
+        ))}
       </div>
     </div>
   );

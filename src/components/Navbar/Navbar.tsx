@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { Navbar as FlowNavbar } from 'flowbite-react';
-import ConnectWalletButton from '../Buttons/ConnectWalletButton/ConnectWalletButton';
+import ConnectWalletButton from '../ConnectWalletButton/ConnectWalletButton';
+import Link from 'next/link';
 
 export type NavOption = {
   name: string;
@@ -55,10 +56,12 @@ const Navbar = () => {
             return (
               <FlowNavbar.Link
                 active={navOption.activePath === router.pathname}
-                href={navOption.path}
                 key={navOption.name}
               >
-                {navOption.name}
+                {/* TODO: Use href directly from FlowNavbar.Link when they fix refresh on redirection asn remove <Link> */}
+                <Link className="cursor-pointer" href={navOption.path} passHref>
+                  {navOption.name}
+                </Link>
               </FlowNavbar.Link>
             );
           })}

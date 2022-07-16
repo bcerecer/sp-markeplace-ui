@@ -19,6 +19,7 @@ const NftCard = (): JSX.Element => {
           </p>
         </div>
         <div className="w-full flex items-center justify-between">
+          {/* TODO: Refactor this to use ... if it overflows width */}
           <p className="text-smd max-w-[160px] font-bold text-gray-700 dark:text-white">
             50000000005
           </p>

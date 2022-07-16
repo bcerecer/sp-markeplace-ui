@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 export interface LabelProps
   extends PropsWithChildren<Omit<ComponentProps<'label'>, 'className' | 'color'>> {
-  className: string;
+  className?: string;
   disabled?: boolean;
 }
 

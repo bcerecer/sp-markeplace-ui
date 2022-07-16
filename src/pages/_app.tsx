@@ -31,8 +31,8 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
       </Head>
       {!isSSR && (
         <Flowbite>
-          <Navbar />
           <ToastLayout>
+            <Navbar />
             {/* Takes care of putting Footer component at bottom */}
             <div className="flex-grow">
               <Component {...pageProps} />
@@ -40,7 +40,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
           </ToastLayout>
         </Flowbite>
       )}
-      <div className="w-screen mx-auto flex justify-center">
+      <div className="w-full mx-auto flex justify-center">
         <Footer />
       </div>
     </div>

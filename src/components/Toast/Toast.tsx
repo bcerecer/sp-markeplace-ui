@@ -1,10 +1,12 @@
 import { Toast as FlowToast } from 'flowbite-react';
 import { ReactNode, useEffect } from 'react';
 import { MdOutbox } from 'react-icons/md';
+import { AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineInfoCircle } from 'react-icons/ai';
+import { BiWindowClose, BiWindowOpen } from 'react-icons/bi';
 
 const autoDismissAfterMs = 3250;
 
-type ToastVariant = 'send';
+type ToastVariant = 'send' | 'info' | 'success' | 'failure' | 'connected' | 'disconnected';
 
 type ToastProps = {
   variant: ToastVariant;
@@ -18,6 +20,16 @@ const getIcon = (variant: ToastVariant): ReactNode => {
   switch (variant) {
     case 'send':
       return <MdOutbox className={className} />;
+    case 'info':
+      return <AiOutlineInfoCircle className={className} />;
+    case 'success':
+      return <AiOutlineCheckCircle className={className} />;
+    case 'failure':
+      return <AiOutlineCloseCircle className={className} />;
+    case 'connected':
+      return <BiWindowOpen className={className} />;
+    case 'disconnected':
+      return <BiWindowClose className={className} />;
     default:
       return null;
   }

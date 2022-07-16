@@ -34,7 +34,11 @@ const CollectionInfo = () => {
         <Label className="text-4xl font-extrabold">Solana Monkey Business</Label>
         <span>
           <Label className="text-sm font-light italic">Created by </Label>
-          <Link className="cursor-pointer" href={'linkhere'} passHref>
+          <Link
+            className="cursor-pointer"
+            href={`https://explorer.devnet.aptos.dev/account/${0x12344534215342112342}`}
+            passHref
+          >
             <Label className="text-sm font-medium underline cursor-pointer">
               0x12344534215342112342
             </Label>

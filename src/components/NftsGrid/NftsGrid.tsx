@@ -1,4 +1,4 @@
-import NftCard from '../NftCard/NftCard';
+import NftCard from './components/NftCard/NftCard';
 
 const items = [
   '1',

@@ -133,8 +133,8 @@ export const ConnectWalletButton = (): JSX.Element => {
       {!wallet.address && (
         <Modal show={isModalOpen} size="md" popup onClose={() => setIsModalOpen(false)}>
           <Modal.Header />
-          <div className="w-full flex items-center justify-center absolute top-[10px] pointer-events-none	">
-            <Image src={AptosLogo} width={35} height={35} />
+          <div className="w-full flex items-center justify-center absolute top-[10px] pointer-events-none	gap-1">
+            <Image src={AptosLogo} width={18} height={18} />
             <Label className="text-xl font-bold tracking-widest">APTOS</Label>
           </div>
           {/* TODO: Come up with a solution to handle as many overflowing wallets nicely */}

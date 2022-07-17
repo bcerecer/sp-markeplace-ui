@@ -5,7 +5,6 @@ import Image from 'next/image';
 import AptosLogo from '../../../public/icons/aptos.svg';
 import MartianLogo from '../../../public/icons/martian.svg';
 import { Wallet, useGlobalState } from '../../utils/state';
-import { MartianWalletConnectResponse } from '../../utils/Wallet/martian';
 import { useToasts } from '../Toast/ToastLayout';
 
 // TODO: Refactor this component into two separate components once proper global state management is added
@@ -43,7 +42,7 @@ const availableWallets = [
 
       if (isMartianWalletInstalled) {
         // Connect
-        window.martian.connect((resp: MartianWalletConnectResponse) => {
+        window.martian.connect((resp: { status: number; message: string; address: string }) => {
           setWallet((p) => ({ ...p, address: resp.address }));
           // Only show toast when wallet connection is accepted
           if (resp.address) {

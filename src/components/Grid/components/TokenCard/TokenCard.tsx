@@ -6,7 +6,7 @@ import { useToasts } from '../../../Toast/ToastLayout';
 
 export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 
-type TokenCardProps = {
+export type TokenCardProps = {
   variant: TokenCardVariant;
   imgSrc: string;
   id: string;
@@ -54,6 +54,7 @@ const ListedFooterContent = (props: { id: string; price: number }): JSX.Element 
     </div>
   );
 };
+
 const ToListFooterContent = (): JSX.Element => {
   return (
     <div className={`w-full ${footerContentSize} flex items-center justify-center`}>

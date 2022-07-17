@@ -14,7 +14,7 @@ module.exports = {
         '10xl': '4500px',
       },
       gridTemplateColumns: {
-        // Take care of NftsGrid
+        // Take care of Grid component
         14: 'repeat(14, minmax(0, 1fr))',
         16: 'repeat(16, minmax(0, 1fr))',
         18: 'repeat(18, minmax(0, 1fr))',

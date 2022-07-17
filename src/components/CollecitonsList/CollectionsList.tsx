@@ -42,7 +42,7 @@ const CollectionsList = () => {
           return (
             <Table.Row
               key={collection.name}
-              className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer"
               onClick={() => {
                 router.push(collection.path);
               }}

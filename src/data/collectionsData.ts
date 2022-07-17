@@ -3,11 +3,12 @@
 export const collectionsData = [
   {
     localId: 1,
-    imgSrc: 'https://nyancatcollection.com/images/Original.gif',
-    name: 'Aptos nyan cats',
+    imgSrc:
+      'https://rxbadlmhqshszwaxifut.supabase.co/storage/v1/object/public/aptos-nyan-cats/nyan_cat.gif',
+    name: 'Aptos Nyan Cats',
     description: 'The most nyantic collection in the aptosverse',
     path: `/collection/aptos_nyan_cats`,
-    address: '0x1234567890',
+    address: '0x646116de2f6f998b9aaa273463e4eb7914eefc036b7d56cace2c68d16aa03c18',
     tokens: [
       {
         variant: 'listed',
@@ -22,11 +23,12 @@ export const collectionsData = [
   },
   {
     localId: 2,
-    imgSrc: 'https://nyancatcollection.com/images/Original.gif',
-    name: 'Aptos nyan cats',
+    imgSrc:
+      'https://rxbadlmhqshszwaxifut.supabase.co/storage/v1/object/public/aptos-nyan-cats/nyan_cat.gif',
+    name: 'Aptos nyan cats 2',
     description: 'The most nyantic collection in the aptosverse',
     path: `/collection/aptos_nyan_cats_2`,
-    address: '0x1234567890',
+    address: '0x646116de2f6f998b9aaa273463e4eb7914eefc036b7d56cace2c68d16aa03c18',
     tokens: [
       {
         variant: 'listed',

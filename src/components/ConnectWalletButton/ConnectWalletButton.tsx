@@ -47,6 +47,13 @@ const availableWallets = [
           // Only show toast when wallet connection is accepted
           if (resp.address) {
             addToast(walletConnectedToast);
+          } else {
+            // Faile to connect (i.e. martian installed, but not setup)
+            addToast({
+              variant: 'info',
+              title: 'Martian wallet required',
+              text: 'Finish the wallet setup',
+            });
           }
         });
         return;

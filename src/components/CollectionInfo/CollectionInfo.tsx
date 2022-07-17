@@ -1,7 +1,7 @@
 import { Avatar } from 'flowbite-react';
 import Label from '../../components/Label/Label';
-import Link from 'next/link';
 import CollectionStat from './components/CollectionStat/CollectionStat';
+import TruncatedWalletAddress from '../TruncatedWalletAddress/TruncatedWalletAddress';
 
 const collectionStats = {
   owners: {
@@ -48,15 +48,9 @@ const CollectionInfo = (props: CollectionInfoProps) => {
       <Avatar rounded={true} img={collectionImgSrc} size="xl" />
       <div className="flex flex-col pl-11 w-3/5	">
         <Label className="text-4xl font-extrabold">{collectionName}</Label>
-        <span>
-          <Label className="text-sm font-light italic">Created by </Label>
-          <Link
-            className="cursor-pointer"
-            href={`https://explorer.devnet.aptos.dev/account/${creatorAddress}`}
-            passHref
-          >
-            <span className="dark:text-white text-sm font-medium underline">{creatorAddress}</span>
-          </Link>
+        <span className="flex">
+          <Label className="text-sm font-light italic">Created by &nbsp;</Label>
+          <TruncatedWalletAddress address={creatorAddress} />
         </span>
         <Label className="text-md font-sm pt-4">{collectionDescription}</Label>
       </div>

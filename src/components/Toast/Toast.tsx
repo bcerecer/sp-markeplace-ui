@@ -44,7 +44,7 @@ const Toast = (props: ToastProps) => {
   }, [remove]);
 
   return (
-    <div className="animate-abracadabra">
+    <div className="w-[300px] animate-abracadabra">
       <FlowToast>
         <div className="flex !items-start">
           <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-500 dark:bg-blue-900 dark:text-blue-300">

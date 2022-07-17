@@ -26,7 +26,7 @@ type CollectionInfoProps = {
   creatorAddress: string;
   collectionName: string;
   collectionDescription: string;
-  collectionImage: string;
+  collectionImgSrc: string;
   stats: {
     owners: string;
     floor: string;
@@ -36,7 +36,7 @@ type CollectionInfoProps = {
 };
 
 const CollectionInfo = (props: CollectionInfoProps) => {
-  const { creatorAddress, collectionName, collectionDescription, collectionImage, stats } = props;
+  const { creatorAddress, collectionName, collectionDescription, collectionImgSrc, stats } = props;
 
   collectionStats.owners.value = stats.owners;
   collectionStats.floor.value = stats.floor;
@@ -45,7 +45,7 @@ const CollectionInfo = (props: CollectionInfoProps) => {
 
   return (
     <div className="flex container mx-auto p-9 pr-0">
-      <Avatar rounded={true} img={collectionImage} size="2xl" />
+      <Avatar rounded={true} img={collectionImgSrc} size="2xl" />
       <div className="flex flex-col pl-11 w-3/5	">
         <Label className="text-4xl font-extrabold">{collectionName}</Label>
         <span>

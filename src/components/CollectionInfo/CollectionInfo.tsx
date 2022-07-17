@@ -3,54 +3,65 @@ import Label from '../../components/Label/Label';
 import Link from 'next/link';
 import CollectionStat from './components/CollectionStat/CollectionStat';
 
-const collectionStats = [
-  {
+const collectionStats = {
+  owners: {
     title: 'OWNERS',
-    value: '10000',
+    value: '',
   },
-  {
+  floor: {
     title: 'FLOOR',
-    value: '19090000000',
+    value: '',
   },
-  {
+  listed: {
     title: 'LISTED',
-    value: '10000',
+    value: '',
   },
-  {
+  totalSupply: {
     title: 'TOTAL SUPPLY',
-    value: '10000',
+    value: '',
   },
-];
+};
 
-const CollectionInfo = () => {
+type CollectionInfoProps = {
+  creatorAddress: string;
+  collectionName: string;
+  collectionDescription: string;
+  collectionImage: string;
+  stats: {
+    owners: string;
+    floor: string;
+    listed: string;
+    totalSupply: string;
+  };
+};
+
+const CollectionInfo = (props: CollectionInfoProps) => {
+  const { creatorAddress, collectionName, collectionDescription, collectionImage, stats } = props;
+
+  collectionStats.owners.value = stats.owners;
+  collectionStats.floor.value = stats.floor;
+  collectionStats.listed.value = stats.listed;
+  collectionStats.totalSupply.value = stats.totalSupply;
+
   return (
     <div className="flex container mx-auto p-9 pr-0">
-      <Avatar
-        rounded={true}
-        img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-        size="2xl"
-      />
+      <Avatar rounded={true} img={collectionImage} size="2xl" />
       <div className="flex flex-col pl-11 w-3/5	">
-        <Label className="text-4xl font-extrabold">Solana Monkey Business</Label>
+        <Label className="text-4xl font-extrabold">{collectionName}</Label>
         <span>
           <Label className="text-sm font-light italic">Created by </Label>
           <Link
             className="cursor-pointer"
-            href={`https://explorer.devnet.aptos.dev/account/${0x12344534215342112342}`}
+            href={`https://explorer.devnet.aptos.dev/account/${creatorAddress}`}
             passHref
           >
-            <span className="dark:text-white text-sm font-medium underline">
-              0x12344534215342112342
-            </span>
+            <span className="dark:text-white text-sm font-medium underline">{creatorAddress}</span>
           </Link>
         </span>
-        <Label className="text-md font-sm pt-4">
-          this is the descriptio nfor the collection of Solana Monkey Business. Everything is
-          written
-        </Label>
+        <Label className="text-md font-sm pt-4">{collectionDescription}</Label>
       </div>
       <div className="w-2/5 pl-4 grid grid-cols-2">
-        {collectionStats.map((stat) => (
+        {Object.values(collectionStats).map((stat) => (
           <CollectionStat key={stat.title} title={stat.title} value={stat.value} />
         ))}
       </div>

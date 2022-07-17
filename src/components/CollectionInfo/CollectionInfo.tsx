@@ -44,9 +44,11 @@ const CollectionInfo = (props: CollectionInfoProps) => {
   collectionStats.totalSupply.value = stats.totalSupply;
 
   return (
-    <div className="flex container mx-auto p-9 pr-0">
-      <Avatar rounded={true} img={collectionImgSrc} size="xl" />
-      <div className="flex flex-col pl-11 w-3/5	">
+    <div className="w-full flex container mx-auto p-9 pr-0">
+      <div className="w-[250px]">
+        <Avatar rounded={true} img={collectionImgSrc} size="xl" />
+      </div>
+      <div className="w-3/5 flex flex-col pl-11	">
         <Label className="text-4xl font-extrabold">{collectionName}</Label>
         <span className="flex">
           <Label className="text-sm font-light italic">Created by &nbsp;</Label>
@@ -54,10 +56,12 @@ const CollectionInfo = (props: CollectionInfoProps) => {
         </span>
         <Label className="text-md font-sm pt-4">{collectionDescription}</Label>
       </div>
-      <div className="w-2/5 pl-4 grid grid-cols-2">
-        {Object.values(collectionStats).map((stat) => (
-          <CollectionStat key={stat.title} title={stat.title} value={stat.value} />
-        ))}
+      <div className="w-full flex justify-end">
+        <div className="w-[500px] pl-4 grid grid-cols-2">
+          {Object.values(collectionStats).map((stat) => (
+            <CollectionStat key={stat.title} title={stat.title} value={stat.value} />
+          ))}
+        </div>
       </div>
     </div>
   );

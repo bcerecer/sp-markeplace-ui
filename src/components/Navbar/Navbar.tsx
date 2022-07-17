@@ -37,11 +37,14 @@ const Navbar = () => {
   return (
     <FlowNavbar fluid={true} className="w-full flex flex-col">
       <FlowNavbar.Brand href="/">
+        {/* TODO: Add logo to navbar */}
+        {/*
         <img
           src="https://flowbite.com/docs/images/logo.svg"
           className="mr-3 h-6 sm:h-9"
           alt="Flowbite Logo"
         />
+        */}
         <span className="font-sans self-center text-lg tracking-widest font-medium dark:text-white">
           SPACE POWDER
         </span>

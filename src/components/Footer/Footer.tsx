@@ -11,6 +11,7 @@ const Footer = () => {
           <FlowFooter.Copyright href="#" by=" Space Powder" year={2022} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <FlowFooter.Icon href="https://twitter.com/spacepowdernft" icon={BsTwitter} />
+            {/* TODO: Create discord and add to footer */}
             {/* <FlowFooter.Icon href="#" icon={BsDiscord} /> */}
             <FlowFooter.Icon href="mailto:spacepowderio@gmail.com" icon={HiMail} />
           </div>

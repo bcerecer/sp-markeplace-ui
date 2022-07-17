@@ -45,7 +45,7 @@ const CollectionInfo = (props: CollectionInfoProps) => {
 
   return (
     <div className="flex container mx-auto p-9 pr-0">
-      <Avatar rounded={true} img={collectionImgSrc} size="2xl" />
+      <Avatar rounded={true} img={collectionImgSrc} size="xl" />
       <div className="flex flex-col pl-11 w-3/5	">
         <Label className="text-4xl font-extrabold">{collectionName}</Label>
         <span>

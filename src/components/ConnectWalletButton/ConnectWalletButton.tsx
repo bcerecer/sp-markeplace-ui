@@ -45,7 +45,10 @@ const availableWallets = [
         // Connect
         window.martian.connect((resp: MartianWalletConnectResponse) => {
           setWallet((p) => ({ ...p, address: resp.address }));
-          addToast(walletConnectedToast);
+          // Only show toast when wallet connection is accepted
+          if (resp.address) {
+            addToast(walletConnectedToast);
+          }
         });
         return;
       }

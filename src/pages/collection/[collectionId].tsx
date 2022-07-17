@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from '../../components/Grid/Grid';
 import CollectionInfo from '../../components/CollectionInfo/CollectionInfo';
-import { testItems } from '../../components/Grid/testGridData';
 import { useRouter } from 'next/router';
 import { collectionsData } from '../../data/collectionsData';
 
@@ -32,11 +31,14 @@ const CollectionPage = ({ collections }): JSX.Element => {
     collectionImgSrc: collection?.imgSrc,
     stats: fetchedStats,
   };
+
+  const gridTokensData = collection.tokens;
+
   return (
     <div className="w-full flex flex-col">
       <CollectionInfo {...collectionInfoData} />
       <div className="p-9">
-        <Grid items={testItems} />
+        <Grid items={gridTokensData} />
       </div>
     </div>
   );

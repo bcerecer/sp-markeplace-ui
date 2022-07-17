@@ -36,18 +36,20 @@ const Navbar = () => {
 
   return (
     <FlowNavbar fluid={true} className="w-full flex flex-col">
-      <FlowNavbar.Brand href="/">
-        {/* TODO: Add logo to navbar */}
-        {/*
+      <FlowNavbar.Brand>
+        <Link className="cursor-pointer" href={'/'} passHref>
+          {/* TODO: Add logo to navbar */}
+          {/*
         <img
           src="https://flowbite.com/docs/images/logo.svg"
           className="mr-3 h-6 sm:h-9"
           alt="Flowbite Logo"
         />
         */}
-        <span className="font-sans self-center text-lg tracking-widest font-medium dark:text-white">
-          SPACE POWDER
-        </span>
+          <span className="cursor-pointer font-sans self-center text-lg tracking-widest font-medium dark:text-white">
+            SPACE POWDER
+          </span>
+        </Link>
       </FlowNavbar.Brand>
       <div className="flex flex-column items-center gap-6">
         <div className="flex md:order-2">
@@ -61,7 +63,7 @@ const Navbar = () => {
                 active={navOption.activePath === router.pathname}
                 key={navOption.name}
               >
-                {/* TODO: Use href directly from FlowNavbar.Link when they fix refresh on redirection asn remove <Link> */}
+                {/* TODO: Use href directly from FlowNavbar.Link when they fix refresh on redirection asn remove <Link>. Same with .Brand above */}
                 <Link className="cursor-pointer" href={navOption.path} passHref>
                   {navOption.name}
                 </Link>

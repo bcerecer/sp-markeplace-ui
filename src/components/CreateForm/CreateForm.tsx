@@ -1,23 +1,42 @@
 import { Button, Label, TextInput, Textarea } from 'flowbite-react';
 import { useToasts } from '../Toast/ToastLayout';
+import { send } from 'emailjs-com';
 
 const CreateForm = () => {
   const { addToast } = useToasts();
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
+  const handleSubmit = (event: any) => {
     // Prevent page refresh
     event.preventDefault();
-    addToast({ variant: 'send', title: 'Sent', text: 'Collection submitted for review' });
+
+    // TODO: Move this to env variables
+    send(
+      'service_dolha7a',
+      'template_mdawpb5',
+      {
+        collectionName: collectionName.value,
+        creator_account: creatorAccount.value,
+        collectionDescription: collectionDescription.value,
+        iconUrl: iconUrl.value,
+      },
+      'h9G6jn6OfjVdHDSOi'
+    ) // (serviceId, , publicKey)
+      .then((_) => {
+        addToast({ variant: 'send', title: 'Sent', text: 'Collection submitted for review' });
+      })
+      .catch((err) => {
+        console.log('FAILED...', err);
+      });
   };
 
   return (
     <form autoComplete="off" className="min-w-[500px] flex flex-col gap-4" onSubmit={handleSubmit}>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="collection-name" value="Collection Name" />
+          <Label htmlFor="collectionName" value="Collection Name" />
         </div>
         <TextInput
-          id="collection-name"
+          id="collectionName"
           type="text"
           placeholder="Super NFT collection"
           required={true}
@@ -26,10 +45,10 @@ const CreateForm = () => {
       </div>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="creator-account" value="Creator Account Address" />
+          <Label htmlFor="creatorAccount" value="Creator Account Address" />
         </div>
         <TextInput
-          id="creator-account"
+          id="creatorAccount"
           type="text"
           placeholder="0x123"
           required={true}
@@ -38,10 +57,10 @@ const CreateForm = () => {
       </div>
       <div id="textarea">
         <div className="mb-2 block">
-          <Label htmlFor="comment" value="Description" />
+          <Label htmlFor="collectionDescription" value="Description" />
         </div>
         <Textarea
-          id="comment"
+          id="collectionDescription"
           placeholder="Collection description"
           required={true}
           rows={3}
@@ -50,10 +69,10 @@ const CreateForm = () => {
       </div>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="icon-url" value="Collection Icon URL" />
+          <Label htmlFor="iconUrl" value="Collection Icon URL" />
         </div>
         <TextInput
-          id="icon-url"
+          id="iconUrl"
           type="text"
           placeholder="https://example.com"
           required={true}

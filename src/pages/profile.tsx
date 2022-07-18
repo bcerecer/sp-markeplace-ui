@@ -1,18 +1,69 @@
 import Label from '@components/Label/Label';
 import Grid from '@components/Grid/Grid';
 import { useGlobalState } from 'src/utils/state';
-import { testItems } from '@components/Grid/testGridData';
+import { martianWalletClient } from 'src/utils/aptos';
+import { useEffect, useState } from 'react';
+import { TokenCardProps } from 'src/components/Grid/components/TokenCard/TokenCard';
+import { Spinner } from 'flowbite-react';
+import { useToasts } from 'src/components/Toast/ToastLayout';
 
 const ProfilePage = (): JSX.Element => {
   const [wallet, _] = useGlobalState('wallet');
+  const [tokens, setTokens] = useState<TokenCardProps[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { addToast } = useToasts();
+
+  useEffect(() => {
+    const fetchTokens = async () => {
+      setIsLoading(true);
+      try {
+        const resp = await martianWalletClient.getTokens(wallet.address as string);
+        const respTokens: TokenCardProps[] = resp.map((token) => {
+          return {
+            imgSrc: token.uri,
+            name: token.name,
+            price: 0,
+            collectionName: token.collection,
+          };
+        });
+        setTokens(respTokens);
+      } catch (e) {
+        setTokens([]);
+        addToast({
+          variant: 'failure',
+          title: 'Error',
+          text: 'There was an error loading your NFTs',
+        });
+      }
+      setIsLoading(false);
+    };
+
+    if (wallet.address) {
+      fetchTokens();
+    } else {
+      // Remove tokens from state when wallet is disconnected. In case user connects another wallet they don't show
+      setTokens([]);
+    }
+  }, [wallet.address]);
+
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <Label className="text-6xl font-extrabold p-4 tracking-wide">PROFILE</Label>
       <Label className="text-xl font-bold p-7">Browse your NFTs and list them to Marketplace</Label>
-      {wallet.address ? (
-        <Grid items={testItems} />
+      {isLoading ? (
+        <Spinner aria-label="Spinner" size="xl" />
       ) : (
-        <Label className="text-md w-full flex justify-center">Please connect your wallet</Label>
+        <div>
+          {wallet.address && tokens.length > 0 ? (
+            <Grid items={tokens} />
+          ) : (
+            <Label className="text-md w-full flex justify-center">
+              {!wallet.address
+                ? 'Please connect your wallet'
+                : 'No NFTs found in Wallet. Go to the Marketplace and get some!'}
+            </Label>
+          )}
+        </div>
       )}
     </div>
   );

@@ -25,9 +25,8 @@ const CreateForm = () => {
       .then((_) => {
         addToast({ variant: 'send', title: 'Sent', text: 'Collection submitted for review' });
       })
-      .catch((err) => {
+      .catch((_) => {
         addToast({ variant: 'failure', title: 'Error', text: 'Could not submit collection form' });
-        console.log('FAILED...', err);
       });
   };
 

@@ -7,7 +7,6 @@ import { useToasts } from '@components/Toast/ToastLayout';
 export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 
 export type TokenCardProps = {
-  variant: TokenCardVariant;
   imgSrc: string;
   name: string;
   price: number;
@@ -82,9 +81,9 @@ const getFooterVariant = (
 };
 
 const TokenCard = (props: TokenCardProps): JSX.Element => {
-  const { variant, imgSrc, name, price, collectionName } = props;
+  const { imgSrc, name, price, collectionName } = props;
 
-  const nftCardFooter = getFooterVariant(variant, name, price);
+  const nftCardFooter = getFooterVariant(null, name, price);
 
   return (
     <div className="max-w-sm">

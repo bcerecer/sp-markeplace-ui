@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
-import Toast from './Toast';
+import Toast, { ToastType } from './Toast';
 
 type AddToastProps = {
   variant: string;
@@ -19,8 +19,8 @@ const generateToastId = () => {
   return Math.random().toString(36).substring(2, 9);
 };
 
-const ToastLayout = ({ children }) => {
-  const [toasts, setToasts] = useState([]);
+const ToastLayout = ({ children }: { children: any }) => {
+  const [toasts, setToasts] = useState<ToastType[]>([]);
 
   const addToast = useCallback((props: AddToastProps) => {
     const toastId = generateToastId();
@@ -47,6 +47,7 @@ const ToastLayout = ({ children }) => {
   );
 
   return (
+    // @ts-ignore
     <ToastsContext.Provider value={contextValue}>
       {children}
       <div className="mt-[75px] absolute right-0 overflow-hidden">

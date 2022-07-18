@@ -21,10 +21,10 @@ const fetchedStats = {
   totalSupply: '27',
 };
 
-const CollectionPage = ({ collections }): JSX.Element => {
+const CollectionPage = ({ collections }: { collections: any }): JSX.Element => {
   const router = useRouter();
 
-  const collection = collections?.find((collection) => collection.path === router.asPath);
+  const collection = collections?.find((collection: any) => collection.path === router.asPath);
   const collectionInfoData = {
     creatorAddress: collection?.address,
     collectionName: collection?.name,

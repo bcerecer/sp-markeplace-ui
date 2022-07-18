@@ -9,15 +9,16 @@ const CreateForm = () => {
     // Prevent page refresh
     event.preventDefault();
 
+    const { collectionName, creatorAccount, collectionDescription, iconUrl } = event.target;
     // TODO: Move this to env variables
     send(
       'service_dolha7a',
       'template_mdawpb5',
       {
-        collectionName: collectionName.value,
-        creator_account: creatorAccount.value,
-        collectionDescription: collectionDescription.value,
-        iconUrl: iconUrl.value,
+        collectionName: collectionName,
+        creator_account: creatorAccount,
+        collectionDescription: collectionDescription,
+        iconUrl: iconUrl,
       },
       'h9G6jn6OfjVdHDSOi'
     ) // (serviceId, , publicKey)
@@ -25,6 +26,7 @@ const CreateForm = () => {
         addToast({ variant: 'send', title: 'Sent', text: 'Collection submitted for review' });
       })
       .catch((err) => {
+        addToast({ variant: 'failure', title: 'Error', text: 'Could not submit collection form' });
         console.log('FAILED...', err);
       });
   };

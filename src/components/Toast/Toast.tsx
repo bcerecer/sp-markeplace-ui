@@ -8,8 +8,9 @@ const autoDismissAfterMs = 3250;
 
 type ToastVariant = 'send' | 'info' | 'success' | 'failure' | 'connected' | 'disconnected';
 
-type ToastProps = {
-  variant: ToastVariant;
+export type ToastType = {
+  id: string;
+  variant: string;
   title: string;
   text: string;
   remove: () => void;
@@ -35,7 +36,7 @@ const getIcon = (variant: ToastVariant): ReactNode => {
   }
 };
 
-const Toast = (props: ToastProps) => {
+const Toast = (props: ToastType) => {
   const { variant, title, text, remove } = props;
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const Toast = (props: ToastProps) => {
       <FlowToast>
         <div className="flex !items-start">
           <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-500 dark:bg-blue-900 dark:text-blue-300">
-            {getIcon(variant)}
+            {getIcon(variant as ToastVariant)}
           </div>
           <div className="ml-3 text-sm font-normal">
             <span className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">

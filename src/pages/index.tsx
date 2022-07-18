@@ -12,7 +12,7 @@ export const getStaticProps = async () => {
   };
 };
 
-const MarketplacePage = ({ collections }): JSX.Element => {
+const MarketplacePage = ({ collections }: { collections: any }): JSX.Element => {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <Label className="text-6xl font-extrabold p-4 tracking-wide">MARKETPLACE</Label>

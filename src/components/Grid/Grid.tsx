@@ -16,7 +16,7 @@ const Grid = (props: GridProps): JSX.Element => {
               return a.variant === 'listed' ? -1 : 1;
             })
             .map((item) => (
-              <div key={item.id} className="flex justify-center ">
+              <div key={item.name} className="flex justify-center ">
                 <TokenCard {...item}></TokenCard>
               </div>
             ))}

@@ -32,8 +32,8 @@ const onClickBuyWallet = (wallet: Wallet, addToast: any, id: string, price: numb
   return;
 };
 
-const ListedFooterContent = (props: { id: string; price: number }): JSX.Element => {
-  const { id, price } = props;
+const ListedFooterContent = (props: { tokenName: string; price: number }): JSX.Element => {
+  const { tokenName, price } = props;
   const [wallet, _] = useGlobalState('wallet');
   const { addToast } = useToasts();
   return (
@@ -47,7 +47,7 @@ const ListedFooterContent = (props: { id: string; price: number }): JSX.Element 
           {price}
         </p>
       </div>
-      <Button size="xs" onClick={() => onClickBuyWallet(wallet, addToast, id, price)}>
+      <Button size="xs" onClick={() => onClickBuyWallet(wallet, addToast, tokenName, price)}>
         <span className="font-extrabold">Buy</span>
       </Button>
     </div>
@@ -64,10 +64,14 @@ const ToListFooterContent = (): JSX.Element => {
   );
 };
 
-const getFooterVariant = (variant: TokenCardVariant, id: string, price: number): JSX.Element => {
+const getFooterVariant = (
+  variant: TokenCardVariant,
+  tokenName: string,
+  price: number
+): JSX.Element => {
   switch (variant) {
     case 'listed':
-      return <ListedFooterContent id={id} price={price} />;
+      return <ListedFooterContent tokenName={tokenName} price={price} />;
     case 'unlisted':
       return <div className={footerContentSize}></div>;
     case 'toList':
@@ -78,9 +82,9 @@ const getFooterVariant = (variant: TokenCardVariant, id: string, price: number):
 };
 
 const TokenCard = (props: TokenCardProps): JSX.Element => {
-  const { variant, imgSrc, id, name, price, collectionName } = props;
+  const { variant, imgSrc, name, price, collectionName } = props;
 
-  const nftCardFooter = getFooterVariant(variant, id, price);
+  const nftCardFooter = getFooterVariant(variant, name, price);
 
   return (
     <div className="max-w-sm">

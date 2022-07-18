@@ -9,7 +9,6 @@ export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 export type TokenCardProps = {
   variant: TokenCardVariant;
   imgSrc: string;
-  id: string;
   name: string;
   price: number;
   collectionName: string;

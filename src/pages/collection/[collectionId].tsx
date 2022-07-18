@@ -3,6 +3,7 @@ import Grid from '../../components/Grid/Grid';
 import CollectionInfo from '../../components/CollectionInfo/CollectionInfo';
 import { useRouter } from 'next/router';
 import { collectionsData } from '../../data/collectionsData';
+import { TokenCardProps } from '../../components/Grid/components/TokenCard/TokenCard';
 
 // TODO: remove this once we go to database solution
 export const getServerSideProps = async () => {
@@ -32,7 +33,7 @@ const CollectionPage = ({ collections }): JSX.Element => {
     stats: fetchedStats,
   };
 
-  const gridTokensData = collection.tokens;
+  const gridTokensData: TokenCardProps[] = collection.tokens;
 
   return (
     <div className="w-full flex flex-col">

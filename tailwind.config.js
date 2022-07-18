@@ -26,6 +26,10 @@ module.exports = {
           '90%': { opacity: 1, transform: 'translateY(0)' },
           '100%': { opacity: 0, transform: 'translateY(-30px)' },
         },
+        pulse: {
+          '0%,100%': { opacity: 1 },
+          '50%': { opacity: 0.8 },
+        },
       },
       animation: {
         abracadabra: 'abracadabra 3.35s linear',

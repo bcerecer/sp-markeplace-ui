@@ -1,9 +1,9 @@
 import React from 'react';
-import Grid from '../../components/Grid/Grid';
-import CollectionInfo from '../../components/CollectionInfo/CollectionInfo';
+import Grid from '@components/Grid/Grid';
+import CollectionInfo from '@components/CollectionInfo/CollectionInfo';
 import { useRouter } from 'next/router';
-import { collectionsData } from '../../data/collectionsData';
-import { TokenCardProps } from '../../components/Grid/components/TokenCard/TokenCard';
+import { TokenCardProps } from '@components/Grid/components/TokenCard/TokenCard';
+import { collectionsData } from 'src/data/collectionsData';
 
 // TODO: remove this once we go to database solution
 export const getServerSideProps = async () => {

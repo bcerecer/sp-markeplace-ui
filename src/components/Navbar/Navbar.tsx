@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { Navbar as FlowNavbar } from 'flowbite-react';
-import ConnectWalletButton from '../ConnectWalletButton/ConnectWalletButton';
+import ConnectWalletButton from '@components/ConnectWalletButton/ConnectWalletButton';
 import Link from 'next/link';
 
 export type NavOption = {

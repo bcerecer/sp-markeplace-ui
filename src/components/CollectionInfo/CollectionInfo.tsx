@@ -1,7 +1,7 @@
 import { Avatar } from 'flowbite-react';
-import Label from '../../components/Label/Label';
 import CollectionStat from './components/CollectionStat/CollectionStat';
-import TruncatedWalletAddress from '../TruncatedWalletAddress/TruncatedWalletAddress';
+import Label from '@components//Label/Label';
+import TruncatedWalletAddress from '@components/TruncatedWalletAddress/TruncatedWalletAddress';
 
 const collectionStats = {
   owners: {

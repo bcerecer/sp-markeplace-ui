@@ -1,7 +1,7 @@
-import Label from '../components/Label/Label';
-import Grid from '../components/Grid/Grid';
-import { useGlobalState } from '../utils/state';
-import { testItems } from '../components/Grid/testGridData';
+import Label from '@components/Label/Label';
+import Grid from '@components/Grid/Grid';
+import { useGlobalState } from 'src/utils/state';
+import { testItems } from '@components/Grid/testGridData';
 
 const ProfilePage = (): JSX.Element => {
   const [wallet, _] = useGlobalState('wallet');

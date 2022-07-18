@@ -1,5 +1,5 @@
 import { Button, Label, TextInput, Textarea } from 'flowbite-react';
-import { useToasts } from '../Toast/ToastLayout';
+import { useToasts } from '@components/Toast/ToastLayout';
 import { send } from 'emailjs-com';
 
 const CreateForm = () => {

@@ -1,8 +1,8 @@
 import { Button, Card } from 'flowbite-react';
-import AptCoinLogo from '../../../../../public/icons/aptos.svg';
+import AptCoinLogo from 'public/icons/aptos.svg';
 import Image from 'next/image';
-import { Wallet, useGlobalState } from '../../../../utils/state';
-import { useToasts } from '../../../Toast/ToastLayout';
+import { Wallet, useGlobalState } from 'src/utils/state';
+import { useToasts } from '@components/Toast/ToastLayout';
 
 export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 

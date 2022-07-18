@@ -1,4 +1,4 @@
-import Label from '../../../../components/Label/Label';
+import Label from '@components//Label/Label';
 
 type CollectionStatProp = {
   title: string;

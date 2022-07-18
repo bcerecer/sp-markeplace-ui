@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
-import Toast, { ToastType } from './Toast';
+import Toast, { ToastType } from './components/Toast';
 
 type AddToastProps = {
   variant: string;

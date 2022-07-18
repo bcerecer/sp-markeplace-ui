@@ -1,11 +1,11 @@
 import { Modal, Spinner } from 'flowbite-react';
 import React, { useState } from 'react';
-import { Label } from '../Label/Label';
+import { Label } from '@components/Label/Label';
 import Image from 'next/image';
-import AptosLogo from '../../../public/icons/aptos.svg';
-import MartianLogo from '../../../public/icons/martian.svg';
-import { Wallet, useGlobalState } from '../../utils/state';
-import { useToasts } from '../Toast/ToastLayout';
+import AptosLogo from 'public/icons/aptos.svg';
+import MartianLogo from 'public/icons/martian.svg';
+import { Wallet, useGlobalState } from 'src/utils/state';
+import { useToasts } from '@components/Toast/ToastLayout';
 
 // TODO: Refactor this component into two separate components once proper global state management is added
 

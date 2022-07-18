@@ -20,7 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "src/*": ["src/*"],
-      "@/components/*": ["components/*"]
+      "@components/*": ["./src/components/*"]
     }
   },
   "include": ["next-env.d.ts", "package.json", ".eslintrc.js", "src/**/*", "public/*"],

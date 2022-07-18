@@ -1,5 +1,5 @@
-import CreateForm from '../components/CreateForm/CreateForm';
-import { Label } from '../components/Label/Label';
+import CreateForm from '@components/CreateForm/CreateForm';
+import { Label } from '@components/Label/Label';
 
 const CreatePage = (): JSX.Element => {
   return (

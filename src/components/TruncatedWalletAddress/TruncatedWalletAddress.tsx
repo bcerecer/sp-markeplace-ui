@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { FiCopy } from 'react-icons/fi';
-import { copyToClipboard } from '../../utils/helpers';
+import { copyToClipboard } from 'src/utils/helpers';
 
 type TruncatedWalletAddressProps = {
   address: string;

@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app';
-import '../styles/globals.css';
+import 'src/styles/globals.css';
 import 'tailwindcss/tailwind.css';
 import Navbar from '../components/Navbar/Navbar';
 import { useEffect, useState } from 'react';

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Label } from '../components/Label/Label';
-import CollectionsList from '../components/CollecitonsList/CollectionsList';
-import { collectionsData } from '../data/collectionsData';
+import { Label } from '@components/Label/Label';
+import CollectionsList from '@components/CollecitonsList/CollectionsList';
+import { collectionsData } from 'src/data/collectionsData';
 
 // TODO: remove this once we go to database solution
 export const getStaticProps = async () => {

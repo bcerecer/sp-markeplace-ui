@@ -15,10 +15,10 @@ const CreateForm = () => {
       'service_dolha7a',
       'template_mdawpb5',
       {
-        collectionName: collectionName,
-        creator_account: creatorAccount,
-        collectionDescription: collectionDescription,
-        iconUrl: iconUrl,
+        collectionName: collectionName.value,
+        creatorAccount: creatorAccount.value,
+        collectionDescription: collectionDescription.value,
+        iconUrl: iconUrl.value,
       },
       'h9G6jn6OfjVdHDSOi'
     ) // (serviceId, , publicKey)

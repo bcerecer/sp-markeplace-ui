@@ -6,6 +6,7 @@ import { useToasts } from '@components/Toast/ToastLayout';
 import { useState } from 'react';
 import Label from '@components/Label/Label';
 import { spacePowderClient } from 'src/utils/aptos';
+import { useProfileTokens } from 'src/pages/profile';
 
 export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 
@@ -59,14 +60,11 @@ const ListedFooterContent = (props: { tokenName: string; price: number }): JSX.E
   );
 };
 
-const ToListFooterContent = (props: {
-  collectionOwnerAddress: string;
-  collectionName: string;
-  tokenName: string;
-}) => {
+const ToListFooterContent = (props: TokenCardProps) => {
   const { collectionOwnerAddress, collectionName, tokenName } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToast } = useToasts();
+  const { removeToken } = useProfileTokens();
 
   const onClickListToken = () => {
     setIsModalOpen(true);
@@ -79,13 +77,9 @@ const ToListFooterContent = (props: {
 
     const { tokenPrice } = event.target;
     const _tokenPrice: number = tokenPrice.value;
-    console.log(
-      `collectionOwnerAddress: ${collectionOwnerAddress} \n collectionName: ${collectionName} \n tokenName: ${tokenName} \n _tokenPrice: ${_tokenPrice}`
-    );
 
     const isMartianWalletInstalled = window.martian?.address;
     if (isMartianWalletInstalled) {
-      console.log('before calling signGenericTransaction');
       const listTokenArgs = spacePowderClient.getListTokenTransactionMartianParams(
         collectionOwnerAddress,
         collectionName,
@@ -98,12 +92,21 @@ const ToListFooterContent = (props: {
         listTokenArgs.args,
         listTokenArgs.type_arguments,
         (resp: any) => {
-          console.log('after signGenericTransaction. resp: ', resp);
           if (resp.status === 200) {
-            console.log('success!!!!. resp: ', resp);
+            addToast({
+              variant: 'success',
+              title: 'Success',
+              text: 'NFT listed successfully',
+            });
+            removeToken(tokenName);
           } else {
-            console.log('failed!!!!. resp: ', resp);
+            addToast({
+              variant: 'failure',
+              title: 'Fail',
+              text: 'Problem listing NFT',
+            });
           }
+          setIsModalOpen(false);
         }
       );
       return;
@@ -154,41 +157,25 @@ const ToListFooterContent = (props: {
   );
 };
 
-const getFooterVariant = (
-  variant: TokenCardVariant,
-  collectionOwnerAddress: string,
-  collectionName: string,
-  tokenName: string,
-  price?: number
-): JSX.Element => {
-  switch (variant) {
+const getFooterVariant = (tokenCardProps: TokenCardProps): JSX.Element => {
+  switch (tokenCardProps.variant) {
     case 'listed':
-      return <ListedFooterContent tokenName={tokenName} price={price} />;
+      return (
+        <ListedFooterContent tokenName={tokenCardProps.tokenName} price={tokenCardProps.price} />
+      );
     case 'unlisted':
       return <div className={footerContentSize}></div>;
     case 'toList':
-      return (
-        <ToListFooterContent
-          collectionOwnerAddress={collectionOwnerAddress}
-          collectionName={collectionName}
-          tokenName={tokenName}
-        />
-      );
+      return <ToListFooterContent {...tokenCardProps} />;
     default:
       return <div className={footerContentSize}></div>;
   }
 };
 
 const TokenCard = (props: TokenCardProps): JSX.Element => {
-  const { variant, imgSrc, collectionOwnerAddress, collectionName, tokenName, price } = props;
+  const { imgSrc, collectionName, tokenName } = props;
 
-  const nftCardFooter = getFooterVariant(
-    variant,
-    collectionOwnerAddress,
-    collectionName,
-    tokenName,
-    price
-  );
+  const nftCardFooter = getFooterVariant(props);
 
   return (
     <div className="max-w-sm">

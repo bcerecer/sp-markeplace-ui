@@ -2,10 +2,18 @@ import Label from '@components/Label/Label';
 import Grid from '@components/Grid/Grid';
 import { useGlobalState } from 'src/utils/state';
 import { martianWalletClient } from 'src/utils/aptos';
-import { useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { TokenCardProps } from 'src/components/Grid/components/TokenCard/TokenCard';
 import { Spinner } from 'flowbite-react';
 import { useToasts } from 'src/components/Toast/ToastLayout';
+import React from 'react';
+
+const ProfileTokensContext = React.createContext({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  removeToken: (name: string) => {
+    throw new Error('Error calling removeToken.');
+  },
+});
 
 const ProfilePage = (): JSX.Element => {
   const [wallet, _] = useGlobalState('wallet');
@@ -20,7 +28,6 @@ const ProfilePage = (): JSX.Element => {
       try {
         const resp = await martianWalletClient.getTokens(wallet.address as string);
         const respTokens: TokenCardProps[] = resp.map((token) => {
-          console.log('token: ', token);
           return {
             variant: 'toList',
             imgSrc: token.uri,
@@ -49,27 +56,46 @@ const ProfilePage = (): JSX.Element => {
     }
   }, [wallet.address]);
 
-  return (
-    <div className="w-full flex flex-col items-center justify-center">
-      <Label className="text-6xl font-extrabold p-4 tracking-wide">PROFILE</Label>
-      <Label className="text-xl font-bold p-7">Browse your NFTs and list them to Marketplace</Label>
-      {isLoading ? (
-        <Spinner aria-label="Spinner" size="xl" />
-      ) : (
-        <div>
-          {wallet.address && tokens.length > 0 ? (
-            <Grid items={tokens} />
-          ) : (
-            <Label className="text-md w-full flex justify-center">
-              {!wallet.address
-                ? 'Please connect your wallet'
-                : 'No NFTs found in Wallet. Go to the Marketplace and get some!'}
-            </Label>
-          )}
-        </div>
-      )}
-    </div>
+  const removeToken = useCallback((name: string) => {
+    setTokens((latestTokens) => latestTokens.filter(({ tokenName }) => tokenName !== name));
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({
+      removeToken,
+    }),
+    [removeToken]
   );
+
+  return (
+    <ProfileTokensContext.Provider value={contextValue}>
+      <div className="w-full flex flex-col items-center justify-center">
+        <Label className="text-6xl font-extrabold p-4 tracking-wide">PROFILE</Label>
+        <Label className="text-xl font-bold p-7">
+          Browse your NFTs and list them to Marketplace
+        </Label>
+        {isLoading ? (
+          <Spinner aria-label="Spinner" size="xl" />
+        ) : (
+          <div>
+            {wallet.address && tokens.length > 0 ? (
+              <Grid items={tokens} />
+            ) : (
+              <Label className="text-md w-full flex justify-center">
+                {!wallet.address
+                  ? 'Please connect your wallet'
+                  : 'No NFTs found in Wallet. Go to the Marketplace and get some!'}
+              </Label>
+            )}
+          </div>
+        )}
+      </div>
+    </ProfileTokensContext.Provider>
+  );
+};
+
+export const useProfileTokens = () => {
+  return useContext(ProfileTokensContext);
 };
 
 export default ProfilePage;

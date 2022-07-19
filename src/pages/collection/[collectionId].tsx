@@ -26,10 +26,10 @@ const CollectionPage = ({ collections }: { collections: any }): JSX.Element => {
 
   const collection = collections?.find((collection: any) => collection.path === router.asPath);
   const collectionInfoData = {
-    creatorAddress: collection?.address,
-    collectionName: collection?.name,
-    collectionDescription: collection?.description,
-    collectionImgSrc: collection?.imgSrc,
+    creatorAddress: collection.address,
+    collectionName: collection.name,
+    collectionDescription: collection.description,
+    collectionImgSrc: collection.imgSrc,
     stats: fetchedStats,
   };
 

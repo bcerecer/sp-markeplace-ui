@@ -20,9 +20,9 @@ const ProfilePage = (): JSX.Element => {
         const resp = await martianWalletClient.getTokens(wallet.address as string);
         const respTokens: TokenCardProps[] = resp.map((token) => {
           return {
+            variant: 'toList',
             imgSrc: token.uri,
             name: token.name,
-            price: 0,
             collectionName: token.collection,
           };
         });

@@ -5,15 +5,17 @@ import { Wallet, useGlobalState } from 'src/utils/state';
 import { useToasts } from '@components/Toast/ToastLayout';
 import { useState } from 'react';
 import Label from '@components/Label/Label';
+import { spacePowderClient } from 'src/utils/aptos';
 
 export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 
 export type TokenCardProps = {
   variant: TokenCardVariant;
   imgSrc: string;
-  name: string;
-  price?: number;
+  collectionOwnerAddress: string;
   collectionName: string;
+  tokenName: string;
+  price?: number;
 };
 
 const footerContentSize = 'h-[10px]';
@@ -57,8 +59,14 @@ const ListedFooterContent = (props: { tokenName: string; price: number }): JSX.E
   );
 };
 
-const ToListFooterContent = (): JSX.Element => {
+const ToListFooterContent = (props: {
+  collectionOwnerAddress: string;
+  collectionName: string;
+  tokenName: string;
+}) => {
+  const { collectionOwnerAddress, collectionName, tokenName } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { addToast } = useToasts();
 
   const onClickListToken = () => {
     setIsModalOpen(true);
@@ -70,12 +78,40 @@ const ToListFooterContent = (): JSX.Element => {
     event.preventDefault();
 
     const { tokenPrice } = event.target;
+    const _tokenPrice: number = tokenPrice.value;
+    console.log(
+      `collectionOwnerAddress: ${collectionOwnerAddress} \n collectionName: ${collectionName} \n tokenName: ${tokenName} \n _tokenPrice: ${_tokenPrice}`
+    );
 
-    console.log('submit NFT for price:', tokenPrice.value);
+    const isMartianWalletInstalled = window.martian?.address;
+    if (isMartianWalletInstalled) {
+      console.log('before calling signGenericTransaction');
+      const listTokenArgs = spacePowderClient.getListTokenTransactionMartianParams(
+        collectionOwnerAddress,
+        collectionName,
+        tokenName,
+        _tokenPrice
+      );
+      // Connect
+      window.martian.signGenericTransaction(
+        listTokenArgs.func,
+        listTokenArgs.args,
+        listTokenArgs.type_arguments,
+        (resp: any) => {
+          console.log('after signGenericTransaction. resp: ', resp);
+          if (resp.status === 200) {
+            console.log('success!!!!. resp: ', resp);
+          } else {
+            console.log('failed!!!!. resp: ', resp);
+          }
+        }
+      );
+      return;
+    }
   };
 
   return (
-    <>
+    <div>
       <div className={`w-full ${footerContentSize} flex items-center justify-center`}>
         <Button size="sm" onClick={() => onClickListToken()}>
           <span className="font-extrabold">Add Listing</span>
@@ -114,14 +150,16 @@ const ToListFooterContent = (): JSX.Element => {
           </form>
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   );
 };
 
 const getFooterVariant = (
   variant: TokenCardVariant,
+  collectionOwnerAddress: string,
+  collectionName: string,
   tokenName: string,
-  price: number
+  price?: number
 ): JSX.Element => {
   switch (variant) {
     case 'listed':
@@ -129,22 +167,36 @@ const getFooterVariant = (
     case 'unlisted':
       return <div className={footerContentSize}></div>;
     case 'toList':
-      return <ToListFooterContent />;
+      return (
+        <ToListFooterContent
+          collectionOwnerAddress={collectionOwnerAddress}
+          collectionName={collectionName}
+          tokenName={tokenName}
+        />
+      );
     default:
       return <div className={footerContentSize}></div>;
   }
 };
 
 const TokenCard = (props: TokenCardProps): JSX.Element => {
-  const { variant, imgSrc, name, price, collectionName } = props;
+  const { variant, imgSrc, collectionOwnerAddress, collectionName, tokenName, price } = props;
 
-  const nftCardFooter = getFooterVariant(variant, name, price);
+  const nftCardFooter = getFooterVariant(
+    variant,
+    collectionOwnerAddress,
+    collectionName,
+    tokenName,
+    price
+  );
 
   return (
     <div className="max-w-sm">
       <Card imgAlt="Meaningful alt text for an image that is not purely decorative" imgSrc={imgSrc}>
         <div className="pb-2">
-          <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">{name}</h5>
+          <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
+            {tokenName}
+          </h5>
           <p className="text-xs font-normal text-gray-700 dark:text-gray-400">{collectionName}</p>
         </div>
         {nftCardFooter}

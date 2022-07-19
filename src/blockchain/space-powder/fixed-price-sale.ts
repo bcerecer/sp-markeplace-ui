@@ -1,8 +1,14 @@
 import { AptosAccount, AptosClient } from 'aptos';
 
+type MartianSignParams = {
+  func: string;
+  args: any[]; // TODO: add proper type. This can be an array of string/buffer/, etc
+  type_arguments: string[];
+};
+
 export class SpacePowderClient {
   spacePowderData = {
-    ownerAddress: '0xd8928bd1e4dcf324fc430c19ce9f88564df97a8acfa83a346232f281f997a943',
+    ownerAddress: '0x069F2CBCF3934C8B6B0FF79F10B5DB1E12CEDFB932F2C74CF365E26CCBE52DC3',
     module: 'FixedPriceSale',
   };
   aptosClient: AptosClient;
@@ -18,6 +24,23 @@ export class SpacePowderClient {
     await this.aptosClient.waitForTransaction(res['hash']);
   }
 
+  getListTokenTransactionMartianParams(
+    collectionOwnerAddress: string,
+    collectionName: string,
+    tokenName: string,
+    price: number
+  ): MartianSignParams {
+    return {
+      func: `${this.spacePowderData.ownerAddress}::${this.spacePowderData.module}::list_token`,
+      args: [
+        collectionOwnerAddress,
+        Buffer.from(collectionName).toString('hex'),
+        Buffer.from(tokenName).toString('hex'),
+        price.toString(),
+      ],
+      type_arguments: [],
+    };
+  }
   // list_token(seller: &signer, collection_owner_addres: address, collection_name: vector<u8>, token_name: vector<u8>, price: u64)
   async listToken(
     seller: AptosAccount,

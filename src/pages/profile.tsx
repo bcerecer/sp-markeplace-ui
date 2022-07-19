@@ -13,17 +13,20 @@ const ProfilePage = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const { addToast } = useToasts();
 
+  // TODO: Persist tokens in state management solution
   useEffect(() => {
     const fetchTokens = async () => {
       setIsLoading(true);
       try {
         const resp = await martianWalletClient.getTokens(wallet.address as string);
         const respTokens: TokenCardProps[] = resp.map((token) => {
+          console.log('token: ', token);
           return {
             variant: 'toList',
             imgSrc: token.uri,
-            name: token.name,
+            collectionOwnerAddress: token.royalty.creator_account,
             collectionName: token.collection,
+            tokenName: token.name,
           };
         });
         setTokens(respTokens);

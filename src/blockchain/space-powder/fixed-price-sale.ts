@@ -1,26 +1,26 @@
-import { Account, RestClient } from '../common';
+import { AptosAccount, AptosClient } from 'aptos';
 
 export class SpacePowderClient {
   spacePowderData = {
     ownerAddress: '0xd8928bd1e4dcf324fc430c19ce9f88564df97a8acfa83a346232f281f997a943',
     module: 'FixedPriceSale',
   };
-  restClient: RestClient;
+  aptosClient: AptosClient;
 
-  constructor(restClient: RestClient) {
-    this.restClient = restClient;
+  constructor(aptosClient: AptosClient) {
+    this.aptosClient = aptosClient;
   }
 
-  async submitTransactionHelper(account: Account, payload: Record<string, any>) {
-    const txn_request = await this.restClient.generateTransaction(account.address(), payload);
-    const signed_txn = await this.restClient.signTransaction(account, txn_request);
-    const res = await this.restClient.submitTransaction(signed_txn);
-    await this.restClient.waitForTransaction(res['hash']);
+  async submitTransactionHelper(account: AptosAccount, payload: any) {
+    const txn_request = await this.aptosClient.generateTransaction(account.address(), payload);
+    const signed_txn = await this.aptosClient.signTransaction(account, txn_request);
+    const res = await this.aptosClient.submitTransaction(signed_txn);
+    await this.aptosClient.waitForTransaction(res['hash']);
   }
 
   // list_token(seller: &signer, collection_owner_addres: address, collection_name: vector<u8>, token_name: vector<u8>, price: u64)
-  async listTokenWrapper(
-    seller: Account,
+  async listToken(
+    seller: AptosAccount,
     collectionOwnerAddress: string,
     collectionName: string,
     tokenName: string,
@@ -46,8 +46,8 @@ export class SpacePowderClient {
   }
 
   // buy_token(buyer: &signer, seller_addr: address, collection_owner_addres: address, collection_name: vector<u8>, token_name: vector<u8>)
-  async buyTokenWrapper(
-    buyer: Account,
+  async buyToken(
+    buyer: AptosAccount,
     sellerAddress: string,
     collectionOwnerAddress: string,
     collectionName: string,
@@ -73,8 +73,8 @@ export class SpacePowderClient {
   }
 
   // delist_token(seller: &signer, collection_owner_addres: address, collection_name: vector<u8>, token_name: vector<u8>)
-  async delistTokenWrapper(
-    seller: Account,
+  async delistToken(
+    seller: AptosAccount,
     collectionOwnerAddress: string,
     collectionName: string,
     tokenName: string
@@ -86,7 +86,7 @@ export class SpacePowderClient {
       type_arguments: any[];
     } = {
       type: 'script_function_payload',
-      function: `${this.spacePowderData.ownerAddress}::${this.spacePowderData.module}::unlist_token`,
+      function: `${this.spacePowderData.ownerAddress}::${this.spacePowderData.module}::delist_token`,
       type_arguments: [],
       arguments: [
         collectionOwnerAddress,

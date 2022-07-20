@@ -1,0 +1,3 @@
+export const DATABASE_URL = 'https://rxbadlmhqshszwaxifut.supabase.co';
+export const SUPABASE_SERVICE_API_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4YmFkbG1ocXNoc3p3YXhpZnV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTgwOTAzNTMsImV4cCI6MTk3MzY2NjM1M30.Nkdn6weXDjvjreYn09EvbrizhYIoOmbQyOeAhFZU4r4';

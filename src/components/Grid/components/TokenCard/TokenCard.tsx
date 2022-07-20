@@ -7,6 +7,7 @@ import { useState } from 'react';
 import Label from '@components/Label/Label';
 import { spacePowderClient } from 'src/utils/aptos';
 import { useProfileTokens } from 'src/pages/profile';
+import { supabaseClient } from 'src/utils/supabase';
 
 export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 
@@ -91,8 +92,13 @@ const ToListFooterContent = (props: TokenCardProps) => {
         listTokenArgs.func,
         listTokenArgs.args,
         listTokenArgs.type_arguments,
-        (resp: any) => {
+        async (resp: any) => {
           if (resp.status === 200) {
+            await supabaseClient
+              .from('tokens')
+              .update({ listed: true, seller_address: window.martian?.address })
+              .match({ name: tokenName, colleciton_name: collectionName });
+
             addToast({
               variant: 'success',
               title: 'Success',

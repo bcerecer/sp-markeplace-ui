@@ -8,13 +8,36 @@ type MartianSignParams = {
 
 export class SpacePowderClient {
   spacePowderData = {
-    ownerAddress: '0x069F2CBCF3934C8B6B0FF79F10B5DB1E12CEDFB932F2C74CF365E26CCBE52DC3',
+    ownerAddress: '0x84636E74F62C68B91DCDE4D51AECA7A374E27CEC631B03D94438211DB6A687D9',
     module: 'FixedPriceSale',
   };
   aptosClient: AptosClient;
 
   constructor(aptosClient: AptosClient) {
     this.aptosClient = aptosClient;
+  }
+
+  // Returns json with token data if it is for sale or undefined if it's not
+  async getListedTokenData(
+    handle: string,
+    collectionCreatorAddress: string,
+    collectionName: string,
+    tokenName: string
+  ): Promise<any | undefined> {
+    const tokenId = {
+      creator: collectionCreatorAddress,
+      collection: collectionName,
+      name: tokenName,
+    };
+
+    const getListedItemTableRequest = {
+      key_type: '0x1::Token::TokenId',
+      value_type: `${this.spacePowderData.ownerAddress}::${this.spacePowderData.module}::ListedItem`,
+      key: tokenId,
+    };
+
+    const listedTableItem = await this.aptosClient.getTableItem(handle, getListedItemTableRequest);
+    return listedTableItem.data.locked_token;
   }
 
   async submitTransactionHelper(account: AptosAccount, payload: any) {

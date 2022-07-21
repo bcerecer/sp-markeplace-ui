@@ -22,7 +22,7 @@ const getSupaTokens = async (collectionName: string) => {
   return tokensData;
 };
 
-type Collection = {
+export type Collection = {
   name: string;
   tokensCreated: number;
   likes: number;

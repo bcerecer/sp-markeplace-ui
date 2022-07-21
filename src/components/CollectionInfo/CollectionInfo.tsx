@@ -22,17 +22,19 @@ const collectionStats = {
   },
 };
 
-type CollectionInfoProps = {
+type CollectionStats = {
+  owners: string;
+  floor: string;
+  listed: string;
+  totalSupply: string;
+};
+
+export type CollectionInfoProps = {
   creatorAddress: string;
   collectionName: string;
   collectionDescription: string;
   collectionImgSrc: string;
-  stats: {
-    owners: string;
-    floor: string;
-    listed: string;
-    totalSupply: string;
-  };
+  stats: CollectionStats;
 };
 
 const CollectionInfo = (props: CollectionInfoProps) => {

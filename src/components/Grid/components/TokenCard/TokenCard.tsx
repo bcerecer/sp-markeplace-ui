@@ -64,6 +64,7 @@ const ListedFooterContent = (props: { tokenName: string; price: number }): JSX.E
 
 const ToListFooterContent = (props: TokenCardProps) => {
   const { collectionOwnerAddress, collectionName, tokenName } = props;
+  const [wallet, _] = useGlobalState('wallet');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToast } = useToasts();
   const { removeToken } = useProfileTokens();
@@ -94,11 +95,17 @@ const ToListFooterContent = (props: TokenCardProps) => {
         listTokenArgs.args,
         listTokenArgs.type_arguments,
         async (resp: any) => {
+          const currentTime = new Date().toISOString();
           if (resp.status === 200) {
             await supabaseClient
               .from('tokens')
-              .update({ listed: true, seller_address: window.martian?.address, price: tokenPrice })
-              .match({ name: tokenName, colleciton_name: collectionName });
+              .update({
+                listed: true,
+                seller_address: wallet.address,
+                price: _tokenPrice,
+                updated_at: currentTime,
+              })
+              .match({ name: tokenName, collection_name: collectionName });
 
             addToast({
               variant: 'success',
@@ -114,6 +121,11 @@ const ToListFooterContent = (props: TokenCardProps) => {
             });
           }
           setIsModalOpen(false);
+          await supabaseClient.from('transactions').insert({
+            created_at: currentTime,
+            data: resp?.data,
+            status: resp?.status,
+          });
         }
       );
       return;

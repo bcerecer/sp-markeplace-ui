@@ -17,6 +17,7 @@ export type TokenCardProps = {
   collectionOwnerAddress: string;
   collectionName: string;
   tokenName: string;
+  sellerAddress?: string;
   price?: number;
 };
 
@@ -96,7 +97,7 @@ const ToListFooterContent = (props: TokenCardProps) => {
           if (resp.status === 200) {
             await supabaseClient
               .from('tokens')
-              .update({ listed: true, seller_address: window.martian?.address })
+              .update({ listed: true, seller_address: window.martian?.address, price: tokenPrice })
               .match({ name: tokenName, colleciton_name: collectionName });
 
             addToast({

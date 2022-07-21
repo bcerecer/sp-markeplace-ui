@@ -23,10 +23,10 @@ const collectionStats = {
 };
 
 type CollectionStats = {
-  owners: string;
+  owners: number;
   floor: string;
-  listed: string;
-  totalSupply: string;
+  listed: number;
+  totalSupply: number;
 };
 
 export type CollectionInfoProps = {

@@ -29,6 +29,7 @@ type Collection = {
   ownerAddress: string;
   description: string;
   path: string;
+  imgSrc: string;
 };
 
 const CollectionPage = (): JSX.Element => {
@@ -49,19 +50,7 @@ const CollectionPage = (): JSX.Element => {
           ownerAddress: supaCollection[0].owner_address,
           description: supaCollection[0].description,
           path: supaCollection[0].path,
-        });
-
-        setCollectionInfoData({
-          creatorAddress: supaCollection[0].owner_address,
-          collectionName: supaCollection[0].name,
-          collectionDescription: supaCollection[0].description,
-          collectionImgSrc: supaCollection[0].img_url,
-          stats: {
-            owners: '1',
-            floor: '1,000,000',
-            listed: '10',
-            totalSupply: '27',
-          },
+          imgSrc: supaCollection[0].img_url,
         });
       }
     });
@@ -69,11 +58,23 @@ const CollectionPage = (): JSX.Element => {
 
   // Collection is fetched
   if (collection && !collectionTokens) {
+    // Stats
+    let listedTokens = 0;
+    let floor = 0;
+    const ownersSet = new Set();
     getSupaTokens(collection.name).then((supaTokens: any) => {
       // Make sure tokens for collection exists
       if (supaTokens.length > 0) {
         setCollectionTokens(
           supaTokens.map((supaToken: any) => {
+            if (supaToken.listed) {
+              listedTokens++;
+            }
+            if (supaToken.price) {
+              floor = Math.min(supaToken.price, floor);
+            }
+            ownersSet.add(supaToken.holder_address);
+
             return {
               variant: supaToken.listed ? 'listed' : 'unlisted',
               imgSrc: supaToken.img_url,
@@ -86,24 +87,33 @@ const CollectionPage = (): JSX.Element => {
           })
         );
       }
+      setCollectionInfoData({
+        creatorAddress: collection.ownerAddress,
+        collectionName: collection.name,
+        collectionDescription: collection.description,
+        collectionImgSrc: collection.imgSrc,
+        stats: {
+          owners: ownersSet.size,
+          floor: listedTokens === 0 ? 'N/A' : floor.toString(),
+          listed: listedTokens,
+          totalSupply: collection.tokensCreated,
+        },
+      });
     });
   }
 
   return (
     <div className="w-full flex flex-col">
-      {console.log('JSX rendered')}
-      {collectionInfoData ? (
-        <CollectionInfo {...collectionInfoData} />
+      {collectionTokens && collectionInfoData ? (
+        <>
+          <CollectionInfo {...collectionInfoData} />
+          <div className="p-9">
+            <Grid items={collectionTokens} />
+          </div>
+        </>
       ) : (
         <Spinner aria-label="Spinner" size="xl" />
       )}
-      <div className="p-9">
-        {collectionTokens ? (
-          <Grid items={collectionTokens} />
-        ) : (
-          <Spinner aria-label="Spinner" size="xl" />
-        )}
-      </div>
     </div>
   );
 };

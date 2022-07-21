@@ -112,7 +112,9 @@ const CollectionPage = (): JSX.Element => {
           </div>
         </>
       ) : (
-        <Spinner aria-label="Spinner" size="xl" />
+        <div className="flex items-center justify-center">
+          <Spinner aria-label="Spinner" size="xl" />
+        </div>
       )}
     </div>
   );

@@ -26,7 +26,7 @@ export type Collection = {
   name: string;
   tokensCreated: number;
   likes: number;
-  ownerAddress: string;
+  creatorAddress: string;
   description: string;
   path: string;
   imgSrc: string;
@@ -47,7 +47,7 @@ const CollectionPage = (): JSX.Element => {
           name: supaCollection[0].name,
           tokensCreated: supaCollection[0].tokens_created,
           likes: supaCollection[0].likes,
-          ownerAddress: supaCollection[0].owner_address,
+          creatorAddress: supaCollection[0].creator_address,
           description: supaCollection[0].description,
           path: supaCollection[0].path,
           imgSrc: supaCollection[0].img_url,
@@ -60,7 +60,7 @@ const CollectionPage = (): JSX.Element => {
   if (collection && !collectionTokens) {
     // Stats
     let listedTokens = 0;
-    let floor = 0;
+    let floor = Number.MAX_VALUE;
     const ownersSet = new Set();
     getSupaTokens(collection.name).then((supaTokens: any) => {
       // Make sure tokens for collection exists
@@ -78,7 +78,7 @@ const CollectionPage = (): JSX.Element => {
             return {
               variant: supaToken.listed ? 'listed' : 'unlisted',
               imgSrc: supaToken.img_url,
-              collectionOwnerAddress: supaToken.collection_owner_address,
+              collectionCreatorAddress: collection.creatorAddress,
               collectionName: supaToken.collection_name,
               tokenName: supaToken.name,
               sellerAddress: supaToken.seller_address,
@@ -88,7 +88,7 @@ const CollectionPage = (): JSX.Element => {
         );
       }
       setCollectionInfoData({
-        creatorAddress: collection.ownerAddress,
+        creatorAddress: collection.creatorAddress,
         collectionName: collection.name,
         collectionDescription: collection.description,
         collectionImgSrc: collection.imgSrc,

@@ -31,7 +31,7 @@ const ProfilePage = (): JSX.Element => {
           return {
             variant: 'toList',
             imgSrc: token.uri,
-            collectionOwnerAddress: token.royalty.creator_account,
+            collectionCreatorAddress: token.royalty.creator_account,
             collectionName: token.collection,
             tokenName: token.name,
           };

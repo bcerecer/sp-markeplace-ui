@@ -24,7 +24,7 @@ const MarketplacePage = (): JSX.Element => {
               name: supaCollection.name,
               tokensCreated: supaCollection.tokens_created,
               likes: supaCollection.likes,
-              ownerAddress: supaCollection.owner_address,
+              creatorAddress: supaCollection.creator_address,
               description: supaCollection.description,
               path: supaCollection.path,
               imgSrc: supaCollection.img_url,

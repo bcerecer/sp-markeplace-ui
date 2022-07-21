@@ -17,7 +17,7 @@ export class SpacePowderClient {
     this.aptosClient = aptosClient;
   }
 
-  // Returns json with token data if it is for sale or undefined if it's not
+  // Returns json with token data if it is for sale or undefined if it's not. Currently unused
   async getListedTokenData(
     handle: string,
     collectionCreatorAddress: string,
@@ -91,6 +91,23 @@ export class SpacePowderClient {
     await this.submitTransactionHelper(seller, payload);
   }
 
+  getBuyTokenTransactionMartianParams(
+    sellerAddress: string,
+    collectionOwnerAddress: string,
+    collectionName: string,
+    tokenName: string
+  ): MartianSignParams {
+    return {
+      func: `${this.spacePowderData.ownerAddress}::${this.spacePowderData.module}::buy_token`,
+      args: [
+        sellerAddress,
+        collectionOwnerAddress,
+        Buffer.from(collectionName).toString('hex'),
+        Buffer.from(tokenName).toString('hex'),
+      ],
+      type_arguments: [],
+    };
+  }
   // buy_token(buyer: &signer, seller_addr: address, collection_owner_addres: address, collection_name: vector<u8>, token_name: vector<u8>)
   async buyToken(
     buyer: AptosAccount,
@@ -118,6 +135,21 @@ export class SpacePowderClient {
     await this.submitTransactionHelper(buyer, payload);
   }
 
+  getDelistTokenTransactionMartianParams(
+    collectionOwnerAddress: string,
+    collectionName: string,
+    tokenName: string
+  ): MartianSignParams {
+    return {
+      func: `${this.spacePowderData.ownerAddress}::${this.spacePowderData.module}::delist_token`,
+      args: [
+        collectionOwnerAddress,
+        Buffer.from(collectionName).toString('hex'),
+        Buffer.from(tokenName).toString('hex'),
+      ],
+      type_arguments: [],
+    };
+  }
   // delist_token(seller: &signer, collection_owner_addres: address, collection_name: vector<u8>, token_name: vector<u8>)
   async delistToken(
     seller: AptosAccount,

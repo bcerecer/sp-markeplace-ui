@@ -14,7 +14,7 @@ export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 export type TokenCardProps = {
   variant: TokenCardVariant;
   imgSrc: string;
-  collectionOwnerAddress: string;
+  collectionCreatorAddress: string;
   collectionName: string;
   tokenName: string;
   sellerAddress?: string;
@@ -23,47 +23,176 @@ export type TokenCardProps = {
 
 const footerContentSize = 'h-[10px]';
 
-const ListedFooterContent = (props: { tokenName: string; price: number }): JSX.Element => {
-  const { tokenName, price } = props;
+const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
+  const { collectionCreatorAddress, collectionName, tokenName, sellerAddress, price } = props;
   const [wallet, _] = useGlobalState('wallet');
   const { addToast } = useToasts();
 
-  const onClickBuyToken = (wallet: Wallet, addToast: any, tokenName: string, price: number) => {
+  const onClickBuyToken = (
+    sellerAddress: string,
+    wallet: Wallet,
+    addToast: any,
+    tokenName: string
+  ) => {
     if (wallet.address) {
       // TODO: get amount of tokens and check if is greater or equal to price. If not, add toast failure saying not enough money
       // add martian transaction and if it fails, show toast saying that transaction failed
       // If transaction succeeds, say nft was successfully bought and update nft to reflect that
-      console.log(`id: ${tokenName}, price: ${price}`);
+      const buyTokenArgs = spacePowderClient.getBuyTokenTransactionMartianParams(
+        sellerAddress,
+        collectionCreatorAddress,
+        collectionName,
+        tokenName
+      );
+      window.martian.signGenericTransaction(
+        buyTokenArgs.func,
+        buyTokenArgs.args,
+        buyTokenArgs.type_arguments,
+        async (resp: any) => {
+          const currentTime = new Date().toISOString();
+          if (resp.status === 200) {
+            await supabaseClient
+              .from('tokens')
+              .update({
+                listed: false,
+                holder_address: wallet.address,
+                seller_address: null,
+                price: null,
+                updated_at: currentTime,
+              })
+              .match({ token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+
+            addToast({
+              variant: 'success',
+              title: 'Success',
+              text: 'NFT  bought successfully',
+            });
+
+            if (resp.data.txnHash) {
+              const transaction = resp.data.txnHash;
+              await supabaseClient.from('transactions').insert({
+                token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
+                created_at: currentTime,
+                txn_hash: transaction.txnHash,
+                data: resp?.data,
+                status: resp?.status,
+              });
+            }
+            // TODO: update token from collection
+          } else {
+            addToast({
+              variant: 'failure',
+              title: 'Error',
+              text: 'Problem buying NFT.',
+            });
+          }
+        }
+      );
+      return;
     } else {
       addToast({
         variant: 'info',
-        title: 'Wallet not found',
-        text: 'Please connect wallet',
+        title: 'Connect wallet',
+        text: 'Connect wallet to continue',
       });
     }
+  };
+
+  const onClickDelistToken = (sellerAddress: string, addToast: any, tokenName: string) => {
+    const delistTokenArgs = spacePowderClient.getDelistTokenTransactionMartianParams(
+      collectionCreatorAddress,
+      collectionName,
+      tokenName
+    );
+    window.martian.signGenericTransaction(
+      delistTokenArgs.func,
+      delistTokenArgs.args,
+      delistTokenArgs.type_arguments,
+      async (resp: any) => {
+        const currentTime = new Date().toISOString();
+        if (resp.status === 200) {
+          await supabaseClient
+            .from('tokens')
+            .update({
+              listed: false,
+              holder_address: wallet.address,
+              seller_address: null,
+              price: null,
+              updated_at: currentTime,
+            })
+            .match({ token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+
+          addToast({
+            variant: 'success',
+            title: 'Success',
+            text: 'NFT  delisted successfully',
+          });
+
+          if (resp.data?.txnHash) {
+            const transaction = resp.data.txnHash;
+            await supabaseClient.from('transactions').insert({
+              token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
+              created_at: currentTime,
+              txn_hash: transaction.txnHash,
+              data: resp?.data,
+              status: resp?.status,
+            });
+          }
+          // TODO: update token from collection in view
+        } else {
+          addToast({
+            variant: 'failure',
+            title: 'Error',
+            text: 'Problem delisting NFT',
+          });
+        }
+      }
+    );
     return;
   };
 
   return (
     <div className={`w-full ${footerContentSize} flex items-center justify-between`}>
-      <div>
-        <span className="absolute pt-[2px] flex items-center">
-          <Image className="" src={AptCoinLogo} width={15} height={15} />
-        </span>
-        {/* TODO: Refactor this to use ... if it overflows width */}
-        <p className="text-sm max-w-[160px] font-bold text-gray-700 dark:text-white pl-[20px]">
-          {price}
-        </p>
-      </div>
-      <Button size="xs" onClick={() => onClickBuyToken(wallet, addToast, tokenName, price)}>
-        <span className="font-extrabold">Buy</span>
-      </Button>
+      {sellerAddress && wallet.address === sellerAddress ? (
+        <>
+          {/* Connected address owns this token*/}
+          <div className={`w-full ${footerContentSize} flex items-center justify-center`}>
+            <Button
+              size="sm"
+              onClick={() => onClickDelistToken(sellerAddress, addToast, tokenName)}
+            >
+              <span className="font-extrabold">Delist</span>
+            </Button>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Connected address doesn't own this token*/}
+          <div>
+            <span className="absolute pt-[2px] flex items-center">
+              <Image className="" src={AptCoinLogo} width={15} height={15} />
+            </span>
+            {/* TODO: Refactor this to use ... if it overflows width */}
+            <p className="text-sm max-w-[160px] font-bold text-gray-700 dark:text-white pl-[20px]">
+              {price}
+            </p>
+          </div>
+          <Button
+            size="xs"
+            onClick={() =>
+              onClickBuyToken(sellerAddress as string, wallet, addToast, tokenName, price as number)
+            }
+          >
+            <span className="font-extrabold">Buy</span>
+          </Button>
+        </>
+      )}
     </div>
   );
 };
 
 const ToListFooterContent = (props: TokenCardProps) => {
-  const { collectionOwnerAddress, collectionName, tokenName } = props;
+  const { collectionCreatorAddress, collectionName, tokenName } = props;
   const [wallet, _] = useGlobalState('wallet');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToast } = useToasts();
@@ -81,10 +210,9 @@ const ToListFooterContent = (props: TokenCardProps) => {
     const { tokenPrice } = event.target;
     const _tokenPrice: number = tokenPrice.value;
 
-    const isMartianWalletInstalled = window.martian?.address;
-    if (isMartianWalletInstalled) {
+    if (wallet.address) {
       const listTokenArgs = spacePowderClient.getListTokenTransactionMartianParams(
-        collectionOwnerAddress,
+        collectionCreatorAddress,
         collectionName,
         tokenName,
         _tokenPrice
@@ -101,11 +229,23 @@ const ToListFooterContent = (props: TokenCardProps) => {
               .from('tokens')
               .update({
                 listed: true,
+                holder_address: wallet.address,
                 seller_address: wallet.address,
                 price: _tokenPrice,
                 updated_at: currentTime,
               })
-              .match({ name: tokenName, collection_name: collectionName });
+              .match({ token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+
+            if (resp.data.txnHash) {
+              const transaction = resp.data.txnHash;
+              await supabaseClient.from('transactions').insert({
+                token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
+                created_at: currentTime,
+                txn_hash: transaction.txnHash,
+                data: resp?.data,
+                status: resp?.status,
+              });
+            }
 
             addToast({
               variant: 'success',
@@ -116,16 +256,11 @@ const ToListFooterContent = (props: TokenCardProps) => {
           } else {
             addToast({
               variant: 'failure',
-              title: 'Fail',
+              title: 'Error',
               text: 'Problem listing NFT',
             });
           }
           setIsModalOpen(false);
-          await supabaseClient.from('transactions').insert({
-            created_at: currentTime,
-            data: resp?.data,
-            status: resp?.status,
-          });
         }
       );
       return;
@@ -179,9 +314,7 @@ const ToListFooterContent = (props: TokenCardProps) => {
 const getFooterVariant = (tokenCardProps: TokenCardProps): JSX.Element => {
   switch (tokenCardProps.variant) {
     case 'listed':
-      return (
-        <ListedFooterContent tokenName={tokenCardProps.tokenName} price={tokenCardProps.price} />
-      );
+      return <ListedFooterContent {...tokenCardProps} />;
     case 'unlisted':
       return <div className={footerContentSize}></div>;
     case 'toList':

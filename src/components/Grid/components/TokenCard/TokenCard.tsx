@@ -38,16 +38,17 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
       // TODO: get amount of tokens and check if is greater or equal to price. If not, add toast failure saying not enough money
       // add martian transaction and if it fails, show toast saying that transaction failed
       // If transaction succeeds, say nft was successfully bought and update nft to reflect that
-      const buyTokenArgs = spacePowderClient.getBuyTokenTransactionMartianParams(
+
+      const payload = spacePowderClient.getBuyTokenPayload(
         sellerAddress,
         collectionCreatorAddress,
         collectionName,
         tokenName
       );
       window.martian.signGenericTransaction(
-        buyTokenArgs.func,
-        buyTokenArgs.args,
-        buyTokenArgs.type_arguments,
+        payload.func,
+        payload.args,
+        payload.type_arguments,
         async (resp: any) => {
           const currentTime = new Date().toISOString();
           if (resp.status === 200) {
@@ -60,7 +61,7 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
                 price: null,
                 updated_at: currentTime,
               })
-              .match({ token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+              .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
 
             addToast({
               variant: 'success',
@@ -71,10 +72,9 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
             if (resp.data.txnHash) {
               const transaction = resp.data.txnHash;
               await supabaseClient.from('transactions').insert({
+                txn_hash: transaction.txnHash,
                 token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
                 created_at: currentTime,
-                txn_hash: transaction.txnHash,
-                data: resp?.data,
                 status: resp?.status,
               });
             }
@@ -99,15 +99,15 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
   };
 
   const onClickDelistToken = (sellerAddress: string, addToast: any, tokenName: string) => {
-    const delistTokenArgs = spacePowderClient.getDelistTokenTransactionMartianParams(
+    const payload = spacePowderClient.getDelistTokenPayload(
       collectionCreatorAddress,
       collectionName,
       tokenName
     );
     window.martian.signGenericTransaction(
-      delistTokenArgs.func,
-      delistTokenArgs.args,
-      delistTokenArgs.type_arguments,
+      payload.func,
+      payload.args,
+      payload.type_arguments,
       async (resp: any) => {
         const currentTime = new Date().toISOString();
         if (resp.status === 200) {
@@ -120,7 +120,7 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
               price: null,
               updated_at: currentTime,
             })
-            .match({ token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+            .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
 
           addToast({
             variant: 'success',
@@ -131,10 +131,9 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
           if (resp.data?.txnHash) {
             const transaction = resp.data.txnHash;
             await supabaseClient.from('transactions').insert({
+              txn_hash: transaction.txnHash,
               token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
               created_at: currentTime,
-              txn_hash: transaction.txnHash,
-              data: resp?.data,
               status: resp?.status,
             });
           }
@@ -211,7 +210,7 @@ const ToListFooterContent = (props: TokenCardProps) => {
     const _tokenPrice: number = tokenPrice.value;
 
     if (wallet.address) {
-      const listTokenArgs = spacePowderClient.getListTokenTransactionMartianParams(
+      const payload = spacePowderClient.getListTokenPayload(
         collectionCreatorAddress,
         collectionName,
         tokenName,
@@ -219,9 +218,9 @@ const ToListFooterContent = (props: TokenCardProps) => {
       );
       // Connect
       window.martian.signGenericTransaction(
-        listTokenArgs.func,
-        listTokenArgs.args,
-        listTokenArgs.type_arguments,
+        payload.func,
+        payload.args,
+        payload.type_arguments,
         async (resp: any) => {
           const currentTime = new Date().toISOString();
           if (resp.status === 200) {
@@ -234,15 +233,14 @@ const ToListFooterContent = (props: TokenCardProps) => {
                 price: _tokenPrice,
                 updated_at: currentTime,
               })
-              .match({ token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+              .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
 
-            if (resp.data.txnHash) {
+            if (resp?.data?.txnHash) {
               const transaction = resp.data.txnHash;
               await supabaseClient.from('transactions').insert({
+                txn_hash: transaction.txnHash,
                 token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
                 created_at: currentTime,
-                txn_hash: transaction.txnHash,
-                data: resp?.data,
                 status: resp?.status,
               });
             }

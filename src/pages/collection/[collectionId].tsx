@@ -14,11 +14,11 @@ const getSupaCollection = async (collectionPath: string) => {
   return collectionData;
 };
 
-const getSupaTokens = async (collectionName: string) => {
+const getSupaTokens = async (collectionId: string) => {
   const { data: tokensData } = await supabaseClient
     .from('tokens')
     .select('*')
-    .eq('collection_name', collectionName);
+    .eq('collection_id', collectionId);
   return tokensData;
 };
 
@@ -62,7 +62,7 @@ const CollectionPage = (): JSX.Element => {
     let listedTokens = 0;
     let floor = Number.MAX_VALUE;
     const ownersSet = new Set();
-    getSupaTokens(collection.name).then((supaTokens: any) => {
+    getSupaTokens(`${collection.creatorAddress}::${collection.name}`).then((supaTokens: any) => {
       // Make sure tokens for collection exists
       if (supaTokens.length > 0) {
         setCollectionTokens(
@@ -79,7 +79,7 @@ const CollectionPage = (): JSX.Element => {
               variant: supaToken.listed ? 'listed' : 'unlisted',
               imgSrc: supaToken.img_url,
               collectionCreatorAddress: collection.creatorAddress,
-              collectionName: supaToken.collection_name,
+              collectionName: collection.name,
               tokenName: supaToken.name,
               sellerAddress: supaToken.seller_address,
               price: supaToken.price,

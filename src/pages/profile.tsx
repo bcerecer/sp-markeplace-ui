@@ -1,12 +1,12 @@
 import Label from '@components/Label/Label';
 import Grid from '@components/Grid/Grid';
 import { useGlobalState } from 'src/utils/state';
-import { martianWalletClient } from 'src/utils/aptos';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { TokenCardProps } from 'src/components/Grid/components/TokenCard/TokenCard';
 import { Spinner } from 'flowbite-react';
 import { useToasts } from 'src/components/Toast/ToastLayout';
 import React from 'react';
+import { localTokensClient } from 'src/utils/aptos';
 
 const ProfileTokensContext = React.createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,7 +26,7 @@ const ProfilePage = (): JSX.Element => {
     const fetchTokens = async () => {
       setIsLoading(true);
       try {
-        const resp = await martianWalletClient.getTokens(wallet.address as string);
+        const resp = await localTokensClient.getTokens(wallet.address as string);
         const respTokens: TokenCardProps[] = resp.map((token) => {
           return {
             variant: 'toList',

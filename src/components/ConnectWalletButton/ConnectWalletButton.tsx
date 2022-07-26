@@ -41,7 +41,7 @@ const availableWallets = [
       const isMartianWalletInstalled = window.martian;
       if (isMartianWalletInstalled) {
         // Connect
-        window.martian.connect((resp: { status: number; message: string; address: string }) => {
+        window.martian.connect().then((resp: any) => {
           setWallet((p) => ({ ...p, address: resp.address }));
           // Only show toast when wallet connection is accepted
           if (resp.address) {

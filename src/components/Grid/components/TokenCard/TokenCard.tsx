@@ -45,49 +45,41 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
         collectionName,
         tokenName
       );
-      window.martian.signGenericTransaction(
-        payload.func,
-        payload.args,
-        payload.type_arguments,
-        async (resp: any) => {
-          const currentTime = new Date().toISOString();
-          if (resp.status === 200) {
-            await supabaseClient
-              .from('tokens')
-              .update({
-                listed: false,
-                holder_address: wallet.address,
-                seller_address: null,
-                price: null,
-                updated_at: currentTime,
-              })
-              .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+      window.martian.signGenericTransaction(payload).then(async (resp: any) => {
+        const currentTime = new Date().toISOString();
+        if (resp.success) {
+          await supabaseClient
+            .from('tokens')
+            .update({
+              listed: false,
+              holder_address: wallet.address,
+              seller_address: null,
+              price: null,
+              updated_at: currentTime,
+            })
+            .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
 
-            addToast({
-              variant: 'success',
-              title: 'Success',
-              text: 'NFT  bought successfully',
-            });
+          addToast({
+            variant: 'success',
+            title: 'Success',
+            text: 'NFT  bought successfully',
+          });
 
-            if (resp.data.txnHash) {
-              const transaction = resp.data.txnHash;
-              await supabaseClient.from('transactions').insert({
-                txn_hash: transaction.txnHash,
-                token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
-                created_at: currentTime,
-                status: resp?.status,
-              });
-            }
-            // TODO: update token from collection
-          } else {
-            addToast({
-              variant: 'failure',
-              title: 'Error',
-              text: 'Problem buying NFT.',
-            });
-          }
+          await supabaseClient.from('transactions').insert({
+            txn_hash: resp.txnHash,
+            token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
+            created_at: currentTime,
+          });
+
+          // TODO: update token from collection
+        } else {
+          addToast({
+            variant: 'failure',
+            title: 'Error',
+            text: 'Problem buying NFT.',
+          });
         }
-      );
+      });
       return;
     } else {
       addToast({
@@ -104,49 +96,41 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
       collectionName,
       tokenName
     );
-    window.martian.signGenericTransaction(
-      payload.func,
-      payload.args,
-      payload.type_arguments,
-      async (resp: any) => {
-        const currentTime = new Date().toISOString();
-        if (resp.status === 200) {
-          await supabaseClient
-            .from('tokens')
-            .update({
-              listed: false,
-              holder_address: wallet.address,
-              seller_address: null,
-              price: null,
-              updated_at: currentTime,
-            })
-            .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+    window.martian.signGenericTransaction(payload).then(async (resp: any) => {
+      const currentTime = new Date().toISOString();
+      if (resp.success) {
+        await supabaseClient
+          .from('tokens')
+          .update({
+            listed: false,
+            holder_address: wallet.address,
+            seller_address: null,
+            price: null,
+            updated_at: currentTime,
+          })
+          .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
 
-          addToast({
-            variant: 'success',
-            title: 'Success',
-            text: 'NFT  delisted successfully',
-          });
+        addToast({
+          variant: 'success',
+          title: 'Success',
+          text: 'NFT  delisted successfully',
+        });
 
-          if (resp.data?.txnHash) {
-            const transaction = resp.data.txnHash;
-            await supabaseClient.from('transactions').insert({
-              txn_hash: transaction.txnHash,
-              token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
-              created_at: currentTime,
-              status: resp?.status,
-            });
-          }
-          // TODO: update token from collection in view
-        } else {
-          addToast({
-            variant: 'failure',
-            title: 'Error',
-            text: 'Problem delisting NFT',
-          });
-        }
+        await supabaseClient.from('transactions').insert({
+          txn_hash: resp.txnHash,
+          token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
+          created_at: currentTime,
+        });
+
+        // TODO: update token from collection in view
+      } else {
+        addToast({
+          variant: 'failure',
+          title: 'Error',
+          text: 'Problem delisting NFT',
+        });
       }
-    );
+    });
     return;
   };
 
@@ -217,50 +201,41 @@ const ToListFooterContent = (props: TokenCardProps) => {
         _tokenPrice
       );
       // Connect
-      window.martian.signGenericTransaction(
-        payload.func,
-        payload.args,
-        payload.type_arguments,
-        async (resp: any) => {
-          const currentTime = new Date().toISOString();
-          if (resp.status === 200) {
-            await supabaseClient
-              .from('tokens')
-              .update({
-                listed: true,
-                holder_address: wallet.address,
-                seller_address: wallet.address,
-                price: _tokenPrice,
-                updated_at: currentTime,
-              })
-              .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+      window.martian.signGenericTransaction(payload).then(async (resp: any) => {
+        const currentTime = new Date().toISOString();
+        if (resp.success) {
+          await supabaseClient
+            .from('tokens')
+            .update({
+              listed: true,
+              holder_address: wallet.address,
+              seller_address: wallet.address,
+              price: _tokenPrice,
+              updated_at: currentTime,
+            })
+            .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
 
-            if (resp?.data?.txnHash) {
-              const transaction = resp.data.txnHash;
-              await supabaseClient.from('transactions').insert({
-                txn_hash: transaction.txnHash,
-                token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
-                created_at: currentTime,
-                status: resp?.status,
-              });
-            }
+          await supabaseClient.from('transactions').insert({
+            txn_hash: resp.txnHash,
+            token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
+            created_at: currentTime,
+          });
 
-            addToast({
-              variant: 'success',
-              title: 'Success',
-              text: 'NFT listed successfully',
-            });
-            removeToken(tokenName);
-          } else {
-            addToast({
-              variant: 'failure',
-              title: 'Error',
-              text: 'Problem listing NFT',
-            });
-          }
-          setIsModalOpen(false);
+          addToast({
+            variant: 'success',
+            title: 'Success',
+            text: 'NFT listed successfully',
+          });
+          removeToken(tokenName);
+        } else {
+          addToast({
+            variant: 'failure',
+            title: 'Error',
+            text: 'Problem listing NFT',
+          });
         }
-      );
+        setIsModalOpen(false);
+      });
       return;
     }
   };

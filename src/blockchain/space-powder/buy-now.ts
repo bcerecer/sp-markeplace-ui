@@ -1,7 +1,7 @@
 type PayloadParams = {
   func: string;
   args: string[]; // TODO: add proper type. This can be an array of string/buffer/, etc. Check if can be exported from martian
-  type_arguments: string[];
+  type_args: string[];
 };
 
 export class SpacePowderBuyNowClient {
@@ -25,7 +25,7 @@ export class SpacePowderBuyNowClient {
         Buffer.from(tokenName).toString('hex'),
         price.toString(),
       ],
-      type_arguments: [],
+      type_args: [],
     };
   }
 
@@ -44,7 +44,7 @@ export class SpacePowderBuyNowClient {
         Buffer.from(collectionName).toString('hex'),
         Buffer.from(tokenName).toString('hex'),
       ],
-      type_arguments: [],
+      type_args: [],
     };
   }
 
@@ -61,7 +61,7 @@ export class SpacePowderBuyNowClient {
         Buffer.from(collectionName).toString('hex'),
         Buffer.from(tokenName).toString('hex'),
       ],
-      type_arguments: [],
+      type_args: [],
     };
   }
 }

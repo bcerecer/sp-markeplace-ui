@@ -6,7 +6,7 @@ import { TokenCardProps } from 'src/components/Grid/components/TokenCard/TokenCa
 import { Spinner } from 'flowbite-react';
 import { useToasts } from 'src/components/Toast/ToastLayout';
 import React from 'react';
-import { localTokensClient } from 'src/utils/aptos';
+import { martianWalletClient } from 'src/utils/aptos';
 
 const ProfileTokensContext = React.createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,7 +26,7 @@ const ProfilePage = (): JSX.Element => {
     const fetchTokens = async () => {
       setIsLoading(true);
       try {
-        const resp = await localTokensClient.getTokens(wallet.address as string);
+        const resp = await martianWalletClient.getTokens(wallet.address as string);
         const respTokens: TokenCardProps[] = resp.map((token) => {
           return {
             variant: 'toList',

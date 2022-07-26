@@ -8,6 +8,7 @@ import Label from '@components/Label/Label';
 import { spacePowderClient } from 'src/utils/aptos';
 import { useProfileTokens } from 'src/pages/profile';
 import { supabaseClient } from 'src/utils/supabase';
+import { awsUpdateTokenEndpoint, awsUpdateTokenOptions } from 'src/utils/aws';
 
 export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 
@@ -48,16 +49,17 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
       window.martian.signGenericTransaction(payload).then(async (resp: any) => {
         const currentTime = new Date().toISOString();
         if (resp.success) {
-          await supabaseClient
-            .from('tokens')
-            .update({
-              listed: false,
-              holder_address: wallet.address,
-              seller_address: null,
-              price: null,
-              updated_at: currentTime,
-            })
-            .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+          console.log(`tokenId: ${collectionCreatorAddress}::${collectionName}::${tokenName}`);
+          console.log(`transactions: `, resp.txnHash);
+          const transaction = resp.txnHash;
+          const tokenId = `${collectionCreatorAddress}::${collectionName}::${tokenName}`;
+
+          const options = awsUpdateTokenOptions(transaction, tokenId);
+          console.log('options: ', options);
+          console.log('JSON.stringify(options): ', JSON.stringify(options));
+          await fetch(awsUpdateTokenEndpoint, options).then((response) =>
+            console.log('aws update response: ', JSON.stringify(response))
+          );
 
           addToast({
             variant: 'success',
@@ -202,24 +204,18 @@ const ToListFooterContent = (props: TokenCardProps) => {
       );
       // Connect
       window.martian.signGenericTransaction(payload).then(async (resp: any) => {
-        const currentTime = new Date().toISOString();
         if (resp.success) {
-          await supabaseClient
-            .from('tokens')
-            .update({
-              listed: true,
-              holder_address: wallet.address,
-              seller_address: wallet.address,
-              price: _tokenPrice,
-              updated_at: currentTime,
-            })
-            .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+          console.log(`tokenId: ${collectionCreatorAddress}::${collectionName}::${tokenName}`);
+          console.log(`transactions: `, resp.txnHash);
+          const transaction = resp.txnHash;
+          const tokenId = `${collectionCreatorAddress}::${collectionName}::${tokenName}`;
 
-          await supabaseClient.from('transactions').insert({
-            txn_hash: resp.txnHash,
-            token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
-            created_at: currentTime,
-          });
+          const options = awsUpdateTokenOptions(transaction, tokenId);
+          console.log('options: ', options);
+          console.log('JSON.stringify(options): ', JSON.stringify(options));
+          await fetch(awsUpdateTokenEndpoint, options).then((response) =>
+            console.log('aws update response: ', JSON.stringify(response))
+          );
 
           addToast({
             variant: 'success',

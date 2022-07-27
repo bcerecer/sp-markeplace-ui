@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import { Navbar as FlowNavbar } from 'flowbite-react';
 import ConnectWalletButton from '@components/ConnectWalletButton/ConnectWalletButton';
 import Link from 'next/link';
+import Image from 'next/image';
+import SpacePowderLogo from 'public/icons/space_powder.svg';
 
 export type NavOption = {
   name: string;
@@ -38,15 +40,8 @@ const Navbar = () => {
     <FlowNavbar fluid={true} className="w-full flex flex-col">
       <FlowNavbar.Brand>
         <Link className="cursor-pointer" href={'/'} passHref>
-          {/* TODO: Add logo to navbar */}
-          {/*
-        <img
-          src="https://flowbite.com/docs/images/logo.svg"
-          className="mr-3 h-6 sm:h-9"
-          alt="Flowbite Logo"
-        />
-        */}
-          <span className="cursor-pointer font-sans self-center text-lg tracking-widest font-medium dark:text-white">
+          <span className="flex items-center cursor-pointer font-sans self-center text-xl tracking-widest font-medium dark:text-white gap-2">
+            <Image src={SpacePowderLogo} width={28} height={28} />
             SPACE POWDER
           </span>
         </Link>

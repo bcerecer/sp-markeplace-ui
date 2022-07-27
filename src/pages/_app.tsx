@@ -25,9 +25,10 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <div className="min-h-screen flex flex-col">
       <Head>
-        <title>Space Powder</title>
-        <link rel="icon" type="image/png" sizes="32x32" href="/icon-small.png" />
-        <link rel="icon" type="image/png" sizes="128x128" href="/icon-large.png" />
+        <title>Space Powder - NFT Marketplace</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       {!isSSR && (
         <Flowbite>

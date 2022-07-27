@@ -164,9 +164,7 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
           </div>
           <Button
             size="xs"
-            onClick={() =>
-              onClickBuyToken(sellerAddress as string, wallet, addToast, tokenName, price as number)
-            }
+            onClick={() => onClickBuyToken(sellerAddress as string, wallet, addToast, tokenName)}
           >
             <span className="font-extrabold">Buy</span>
           </Button>

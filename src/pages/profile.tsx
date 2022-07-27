@@ -68,6 +68,7 @@ const ProfilePage = (): JSX.Element => {
   );
 
   return (
+    // @ts-ignore
     <ProfileTokensContext.Provider value={contextValue}>
       <div className="w-full flex flex-col items-center justify-center">
         <Label className="text-6xl font-extrabold p-4 tracking-wide">PROFILE</Label>

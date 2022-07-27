@@ -40,10 +40,10 @@ export type CollectionInfoProps = {
 const CollectionInfo = (props: CollectionInfoProps) => {
   const { creatorAddress, collectionName, collectionDescription, collectionImgSrc, stats } = props;
 
-  collectionStats.owners.value = stats.owners;
+  collectionStats.owners.value = stats.owners.toString();
   collectionStats.floor.value = stats.floor;
-  collectionStats.listed.value = stats.listed;
-  collectionStats.totalSupply.value = stats.totalSupply;
+  collectionStats.listed.value = stats.listed.toString();
+  collectionStats.totalSupply.value = stats.totalSupply.toString();
 
   return (
     <div className="w-full flex container mx-auto p-9 pr-0">

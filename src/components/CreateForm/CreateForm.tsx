@@ -1,4 +1,4 @@
-import { Button, Label, TextInput, Textarea } from 'flowbite-react';
+import { Button, Label, TextInput } from 'flowbite-react';
 import { useToasts } from '@components/Toast/ToastLayout';
 import { send } from 'emailjs-com';
 
@@ -9,7 +9,7 @@ const CreateForm = () => {
     // Prevent page refresh
     event.preventDefault();
 
-    const { collectionName, creatorAccount, collectionDescription, iconUrl } = event.target;
+    const { collectionName, creatorAccount, iconUrl } = event.target;
     // TODO: Move this to env variables
     send(
       'service_dolha7a',
@@ -17,7 +17,6 @@ const CreateForm = () => {
       {
         collectionName: collectionName.value,
         creatorAccount: creatorAccount.value,
-        collectionDescription: collectionDescription.value,
         iconUrl: iconUrl.value,
       },
       'h9G6jn6OfjVdHDSOi'
@@ -56,27 +55,15 @@ const CreateForm = () => {
           shadow={true}
         />
       </div>
-      <div id="textarea">
-        <div className="mb-2 block">
-          <Label htmlFor="collectionDescription" value="Description" />
-        </div>
-        <Textarea
-          id="collectionDescription"
-          placeholder="Collection description"
-          required={true}
-          rows={3}
-          shadow={true}
-        />
-      </div>
       <div>
         <div className="mb-2 block">
-          <Label htmlFor="iconUrl" value="Collection Icon URL" />
+          <Label htmlFor="iconUrl" value="Custom Collection Icon URL (Optional)" />
         </div>
         <TextInput
           id="iconUrl"
           type="text"
           placeholder="https://example.com"
-          required={true}
+          required={false}
           shadow={true}
         />
       </div>

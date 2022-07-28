@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Label } from '@components/Label/Label';
-import CollectionsList from '@components/CollecitonsList/CollectionsList';
 import { supabaseClient } from 'src/utils/supabase';
-import { Collection } from 'src/pages/collection/[collectionId]';
 import { Spinner } from 'flowbite-react';
 import Carousel from 'src/components/Carousel/Carousel';
+import Grid from 'src/components/Grid/Grid';
+import { CollectionCardProps } from 'src/components/Grid/components/CollectionCard/CollectionCard';
 
 const getSupaCollections = async () => {
   const { data: collectionData } = await supabaseClient.from('collections').select('*');
@@ -12,7 +12,7 @@ const getSupaCollections = async () => {
 };
 
 const MarketplacePage = (): JSX.Element => {
-  const [collections, setCollections] = useState<Collection[]>();
+  const [collections, setCollections] = useState<CollectionCardProps[]>();
 
   // Only get it the first time
   if (!collections) {
@@ -23,13 +23,11 @@ const MarketplacePage = (): JSX.Element => {
           supaCollections.map((supaCollection: any) => {
             return {
               name: supaCollection.name,
-              tokensCreated: supaCollection.tokens_created,
+              itemsQuantity: supaCollection.tokens_created,
               likes: supaCollection.likes,
-              creatorAddress: supaCollection.creator_address,
-              description: supaCollection.description,
               path: supaCollection.path,
               imgSrc: supaCollection.img_url,
-            } as Collection;
+            } as CollectionCardProps;
           })
         );
       }
@@ -41,11 +39,11 @@ const MarketplacePage = (): JSX.Element => {
       <div className="mx-auto flex max-w-6xl flex-col gap-4 p-8">
         <Carousel />
       </div>
-      <div className="w-full flex flex-col justify-center">
+      <div className="w-full flex flex-col items-center justify-center">
         {collections ? (
-          <div className="flex flex-col items-center">
-            <Label className="text-xl font-bold p-7">Collections</Label>
-            <CollectionsList collections={collections} />
+          <div className="w-full flex flex-col p-12">
+            <Label className="text-3xl font-bold p-7">Collections</Label>
+            <Grid variant="collections" items={collections} />
           </div>
         ) : (
           <Spinner aria-label="Spinner" size="xl" />

@@ -108,7 +108,7 @@ const CollectionPage = (): JSX.Element => {
         <>
           <CollectionInfo {...collectionInfoData} />
           <div className="p-9">
-            <Grid items={collectionTokens} />
+            <Grid variant="tokens" items={collectionTokens} />
           </div>
         </>
       ) : (

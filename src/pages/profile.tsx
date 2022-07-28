@@ -80,7 +80,7 @@ const ProfilePage = (): JSX.Element => {
         ) : (
           <div>
             {wallet.address && tokens.length > 0 ? (
-              <Grid items={tokens} />
+              <Grid variant="tokens" items={tokens} />
             ) : (
               <Label className="text-md w-full flex justify-center">
                 {!wallet.address

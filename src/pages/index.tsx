@@ -4,6 +4,7 @@ import CollectionsList from '@components/CollecitonsList/CollectionsList';
 import { supabaseClient } from 'src/utils/supabase';
 import { Collection } from 'src/pages/collection/[collectionId]';
 import { Spinner } from 'flowbite-react';
+import Carousel from 'src/components/Carousel/Carousel';
 
 const getSupaCollections = async () => {
   const { data: collectionData } = await supabaseClient.from('collections').select('*');
@@ -36,17 +37,21 @@ const MarketplacePage = (): JSX.Element => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center justify-center">
-      {collections ? (
-        <>
-          <Label className="text-6xl font-extrabold p-4 tracking-wide">MARKETPLACE</Label>
-          <Label className="text-xl font-bold p-7">Check out the latest NFT Collections!</Label>
-          <CollectionsList collections={collections} />
-        </>
-      ) : (
-        <Spinner aria-label="Spinner" size="xl" />
-      )}
-    </div>
+    <>
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 p-8">
+        <Carousel />
+      </div>
+      <div className="w-full flex flex-col justify-center">
+        {collections ? (
+          <div className="flex flex-col items-center">
+            <Label className="text-xl font-bold p-7">Collections</Label>
+            <CollectionsList collections={collections} />
+          </div>
+        ) : (
+          <Spinner aria-label="Spinner" size="xl" />
+        )}
+      </div>
+    </>
   );
 };
 

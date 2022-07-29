@@ -71,10 +71,8 @@ const ProfilePage = (): JSX.Element => {
     // @ts-ignore
     <ProfileTokensContext.Provider value={contextValue}>
       <div className="w-full flex flex-col items-center justify-center">
-        <Label className="text-6xl font-extrabold p-4 tracking-wide">PROFILE</Label>
-        <Label className="text-xl font-bold p-7">
-          Browse your NFTs and list them to Marketplace
-        </Label>
+        <Label className="text-4xl font-extrabold p-4 tracking-wide">Profile</Label>
+        <Label className="text-xl font-bold p-7">List your NFTs to Marketplace</Label>
         {isLoading ? (
           <Spinner aria-label="Spinner" size="xl" />
         ) : (
@@ -85,7 +83,7 @@ const ProfilePage = (): JSX.Element => {
               <Label className="text-md w-full flex justify-center">
                 {!wallet.address
                   ? 'Please connect your wallet'
-                  : 'No NFTs found in Wallet. Go to the Marketplace and get some!'}
+                  : 'No NFTs found in wallet. Go to the Marketplace and get some!'}
               </Label>
             )}
           </div>

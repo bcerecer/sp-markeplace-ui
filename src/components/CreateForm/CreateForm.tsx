@@ -1,74 +1,70 @@
-import { Button, Label, TextInput } from 'flowbite-react';
+import { Button, Label, Spinner, TextInput } from 'flowbite-react';
 import { useToasts } from '@components/Toast/ToastLayout';
-import { send } from 'emailjs-com';
+import AwsLambdasClient from 'src/utils/awsLambdasClient';
+import { useState } from 'react';
 
 const CreateForm = () => {
   const { addToast } = useToasts();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
+    setIsLoading(true);
     // Prevent page refresh
     event.preventDefault();
 
-    const { collectionName, creatorAccount, iconUrl } = event.target;
-    // TODO: Move this to env variables
-    send(
-      'service_dolha7a',
-      'template_mdawpb5',
-      {
-        collectionName: collectionName.value,
-        creatorAccount: creatorAccount.value,
-        iconUrl: iconUrl.value,
-      },
-      'h9G6jn6OfjVdHDSOi'
-    ) // (serviceId, , publicKey)
-      .then((_) => {
-        addToast({ variant: 'send', title: 'Sent', text: 'Collection submitted for review' });
-      })
-      .catch((_) => {
-        addToast({ variant: 'failure', title: 'Error', text: 'Could not submit collection form' });
-      });
+    const { collectionName, creatorAccount } = event.target;
+    const lambdaResp = await AwsLambdasClient.submitCollectionForm(
+      collectionName.value,
+      creatorAccount.value
+    );
+    console.log('lambdaResp createForm aws resp: ', lambdaResp);
+    if (lambdaResp.success) {
+      addToast({ variant: 'success', title: 'Success', text: 'Collection added successfully' });
+    } else {
+      addToast({ variant: 'failure', title: 'Error', text: 'Collection cannot be added' });
+    }
+    setIsLoading(false);
   };
 
   return (
-    <form autoComplete="off" className="min-w-[500px] flex flex-col gap-4" onSubmit={handleSubmit}>
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="collectionName" value="Collection Name" />
+    <>
+      <form
+        autoComplete="off"
+        className="min-w-[500px] flex flex-col gap-4"
+        onSubmit={() => handleSubmit(event)}
+      >
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="collectionName" value="Collection Name" />
+          </div>
+          <TextInput
+            id="collectionName"
+            type="text"
+            placeholder="Super NFT collection"
+            required={true}
+            shadow={true}
+          />
         </div>
-        <TextInput
-          id="collectionName"
-          type="text"
-          placeholder="Super NFT collection"
-          required={true}
-          shadow={true}
-        />
-      </div>
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="creatorAccount" value="Creator Account Address" />
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="creatorAccount" value="Creator Account Address" />
+          </div>
+          <TextInput
+            id="creatorAccount"
+            type="text"
+            placeholder="0x123"
+            required={true}
+            shadow={true}
+          />
         </div>
-        <TextInput
-          id="creatorAccount"
-          type="text"
-          placeholder="0x123"
-          required={true}
-          shadow={true}
-        />
-      </div>
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="iconUrl" value="Custom Collection Icon URL (Optional)" />
+        <Button type="submit">Submit</Button>
+      </form>
+      {isLoading && (
+        <div className="flex items-center justify-center">
+          <Spinner aria-label="Default status example" size="xl" />
         </div>
-        <TextInput
-          id="iconUrl"
-          type="text"
-          placeholder="https://example.com"
-          required={false}
-          shadow={true}
-        />
-      </div>
-      <Button type="submit">Submit</Button>
-    </form>
+      )}
+    </>
   );
 };
 

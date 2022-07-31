@@ -7,8 +7,7 @@ import { useState } from 'react';
 import Label from '@components/Label/Label';
 import { spacePowderClient } from 'src/utils/aptos';
 import { useProfileTokens } from 'src/pages/profile';
-import { supabaseClient } from 'src/utils/supabase';
-import { awsUpdateTokenEndpoint, awsUpdateTokenOptions } from 'src/utils/aws';
+import AwsLambdasClient from 'src/utils/awsLambdasClient';
 
 export type TokenCardVariant = 'listed' | 'unlisted' | 'toList';
 
@@ -20,6 +19,7 @@ export type TokenCardProps = {
   tokenName: string;
   sellerAddress?: string;
   price?: number;
+  isListingAllowed?: boolean;
 };
 
 const footerContentSize = 'h-[10px]';
@@ -47,32 +47,19 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
         tokenName
       );
       window.martian.signGenericTransaction(payload).then(async (resp: any) => {
-        const currentTime = new Date().toISOString();
         if (resp.success) {
           console.log(`tokenId: ${collectionCreatorAddress}::${collectionName}::${tokenName}`);
           console.log(`transactions: `, resp.txnHash);
           const transaction = resp.txnHash;
           const tokenId = `${collectionCreatorAddress}::${collectionName}::${tokenName}`;
 
-          const options = awsUpdateTokenOptions(transaction, tokenId);
-          console.log('options: ', options);
-          console.log('JSON.stringify(options): ', JSON.stringify(options));
-          await fetch(awsUpdateTokenEndpoint, options).then((response) =>
-            console.log('aws update response: ', JSON.stringify(response))
-          );
+          await AwsLambdasClient.updateToken(transaction, tokenId);
 
           addToast({
             variant: 'success',
             title: 'Success',
             text: 'NFT  bought successfully',
           });
-
-          await supabaseClient.from('transactions').insert({
-            txn_hash: resp.txnHash,
-            token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
-            created_at: currentTime,
-          });
-
           // TODO: update token from collection
         } else {
           addToast({
@@ -99,29 +86,15 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
       tokenName
     );
     window.martian.signGenericTransaction(payload).then(async (resp: any) => {
-      const currentTime = new Date().toISOString();
       if (resp.success) {
-        await supabaseClient
-          .from('tokens')
-          .update({
-            listed: false,
-            holder_address: wallet.address,
-            seller_address: null,
-            price: null,
-            updated_at: currentTime,
-          })
-          .match({ id: `${collectionCreatorAddress}::${collectionName}::${tokenName}` });
+        const transaction = resp.txnHash;
+        const tokenId = `${collectionCreatorAddress}::${collectionName}::${tokenName}`;
+        await AwsLambdasClient.updateToken(transaction, tokenId);
 
         addToast({
           variant: 'success',
           title: 'Success',
           text: 'NFT  delisted successfully',
-        });
-
-        await supabaseClient.from('transactions').insert({
-          txn_hash: resp.txnHash,
-          token_id: `${collectionCreatorAddress}::${collectionName}::${tokenName}`,
-          created_at: currentTime,
         });
 
         // TODO: update token from collection in view
@@ -175,14 +148,22 @@ const ListedFooterContent = (props: TokenCardProps): JSX.Element => {
 };
 
 const ToListFooterContent = (props: TokenCardProps) => {
-  const { collectionCreatorAddress, collectionName, tokenName } = props;
+  const { collectionCreatorAddress, collectionName, tokenName, isListingAllowed } = props;
   const [wallet, _] = useGlobalState('wallet');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToast } = useToasts();
   const { removeToken } = useProfileTokens();
 
   const onClickListToken = () => {
-    setIsModalOpen(true);
+    if (!isListingAllowed) {
+      addToast({
+        variant: 'failure',
+        title: 'Unavailable',
+        text: "First add collection in 'Create' tab",
+      });
+    } else {
+      setIsModalOpen(true);
+    }
     return;
   };
 
@@ -203,17 +184,10 @@ const ToListFooterContent = (props: TokenCardProps) => {
       // Connect
       window.martian.signGenericTransaction(payload).then(async (resp: any) => {
         if (resp.success) {
-          console.log(`tokenId: ${collectionCreatorAddress}::${collectionName}::${tokenName}`);
-          console.log(`transactions: `, resp.txnHash);
           const transaction = resp.txnHash;
           const tokenId = `${collectionCreatorAddress}::${collectionName}::${tokenName}`;
 
-          const options = awsUpdateTokenOptions(transaction, tokenId);
-          console.log('options: ', options);
-          console.log('JSON.stringify(options): ', JSON.stringify(options));
-          await fetch(awsUpdateTokenEndpoint, options).then((response) =>
-            console.log('aws update response: ', JSON.stringify(response))
-          );
+          await AwsLambdasClient.updateToken(transaction, tokenId);
 
           addToast({
             variant: 'success',

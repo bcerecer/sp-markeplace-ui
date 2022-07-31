@@ -51,7 +51,7 @@ const ProfilePage = (): JSX.Element => {
       setIsLoading(true);
       try {
         const lambdaResp = await AwsLambdasClient.fetchWalletTokens(wallet.address as string); // Already verified wallet.address exist
-        const respTokens: TokenCardProps[] = lambdaResp.body.tokens.map((token) => {
+        const respTokens: TokenCardProps[] = lambdaResp.body.tokens.map((token: any) => {
           return {
             variant: 'toList',
             imgSrc: token.uri,

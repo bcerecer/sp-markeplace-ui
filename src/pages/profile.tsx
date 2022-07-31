@@ -6,7 +6,13 @@ import { TokenCardProps } from 'src/components/Grid/components/TokenCard/TokenCa
 import { Spinner } from 'flowbite-react';
 import { useToasts } from 'src/components/Toast/ToastLayout';
 import React from 'react';
-import { martianWalletClient } from 'src/utils/aptos';
+import AwsLambdasClient from 'src/utils/awsLambdasClient';
+import { supabaseClient } from 'src/utils/supabase';
+
+const getSupaCollections = async () => {
+  const { data: collectionData } = await supabaseClient.from('collections').select('*');
+  return collectionData;
+};
 
 const ProfileTokensContext = React.createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,19 +27,40 @@ const ProfilePage = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const { addToast } = useToasts();
 
+  const [collections, setCollections] = useState<string[]>([]);
+  const [isCollectionsLoaded, setIsCollectionsLoaded] = useState(false);
+
+  // Only get it the first time
+  if (!isCollectionsLoaded) {
+    setIsCollectionsLoaded(true);
+    getSupaCollections().then((supaCollections: any) => {
+      // Make sure that collection exists
+      if (supaCollections.length > 0) {
+        setCollections(
+          supaCollections.map((supaCollection: any) => {
+            return supaCollection.id;
+          })
+        );
+      }
+    });
+  }
+
   // TODO: Persist tokens in state management solution
   useEffect(() => {
     const fetchTokens = async () => {
       setIsLoading(true);
       try {
-        const resp = await martianWalletClient.getTokens(wallet.address as string);
-        const respTokens: TokenCardProps[] = resp.map((token) => {
+        const lambdaResp = await AwsLambdasClient.fetchWalletTokens(wallet.address as string); // Already verified wallet.address exist
+        const respTokens: TokenCardProps[] = lambdaResp.body.tokens.map((token) => {
           return {
             variant: 'toList',
             imgSrc: token.uri,
             collectionCreatorAddress: token.royalty.creator_account,
             collectionName: token.collection,
             tokenName: token.name,
+            isListingAllowed: collections.includes(
+              `${token.royalty.creator_account}::${token.collection}`
+            ),
           };
         });
         setTokens(respTokens);

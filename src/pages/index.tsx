@@ -30,6 +30,8 @@ const MarketplacePage = (): JSX.Element => {
             } as CollectionCardProps;
           })
         );
+      } else {
+        setCollections([]);
       }
     });
   }
